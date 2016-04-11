@@ -1,4 +1,4 @@
-class CLI:
+class CLIBuild:
     def __init__(self, args):
         self.args = args
 
