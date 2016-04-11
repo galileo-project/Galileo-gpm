@@ -44,3 +44,11 @@ class ConfReader:
     @property
     def dep(self):
         return self.content.get("dep")
+
+    @property
+    def name(self):
+        return self.content.get("name")
+
+    @property
+    def git(self):
+        return self.content.get("git")

@@ -3,6 +3,8 @@ author:      tor4z
 version:     1.0
 email:       xx@xx.com
 description: some description
+name:        gpm-demo
+git:         git@github.com:tor4z
 
 build:
   - make
@@ -14,4 +16,4 @@ test:
   - make test
 
 dep:
-  - git@github.com:tor4z/Galileo-matrix.git
+  - git@github.com:tor4z/Galileo-matrix.git:1.0
