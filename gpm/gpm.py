@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 import sys
-from cli import CLI
-
+from gpm.cli import CLI
 
 def main():
     args = sys.argv[1:]

@@ -1,8 +1,8 @@
 import pkgutil
-from utils.opt import opt_parser
-from utils.log import Log
-import config
-from utils.console import put
+from gpm.utils.opt import opt_parser
+from gpm.utils.log import Log
+from gpm import config
+from gpm.utils.console import put
 
 class CLI:
     def __init__(self, args):
