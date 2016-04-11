@@ -13,6 +13,7 @@ class Test:
                 print("Error: ", module_name)
                 sys.exit(1)
         """
+        print("test mod")
         sys.exit(0)
 
 
