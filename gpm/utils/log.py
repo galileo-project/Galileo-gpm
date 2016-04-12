@@ -2,7 +2,7 @@ from gpm.utils.console import put
 from gpm.utils.color import yellow, red, magenta
 import sys
 
-class Log:
+class Log(object):
     @classmethod
     def warn(cls, msg):
         put(yellow("WARN: %s" % msg))

@@ -5,7 +5,7 @@ from gpm.settings import DEFAULT_MOD
 import pkgutil
 import os
 
-class CLI:
+class CLI(object):
     def _default(self, *args, **kwargs):
         self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
