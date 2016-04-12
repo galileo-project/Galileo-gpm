@@ -1,7 +1,10 @@
 class CLIBuild:
-    _OPTS     = {"shortcut": "", "fullname": [], "action": [], "default": "_build"}
+    _OPTS     = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_build"}
 
-    def _build(self):
+    def _build(self, config, *args, **kwargs):
+        pass
+
+    def _help(self, config, *args, **kwargs):
         pass
 
 _MOD = CLIBuild
