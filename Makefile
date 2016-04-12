@@ -10,7 +10,7 @@ PYPATH      := $(shell echo $$PYTHONPATH)
 $(shell export PYTHONPATH=$(PYPATH):./test:.)
 
 install:
-	pip install requirements.txt
+	pip install -r requirements.txt
 	cp -r $(NAME) $(PACKAGE_PATH)
 	chmod 751 $(PACKAGE_PATH)/gpm/gom.py
 	ln -s $(PACKAGE_PATH)/gpm/gom.py $(TARGET)
