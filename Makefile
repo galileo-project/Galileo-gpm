@@ -14,15 +14,15 @@ install:
 	rm -f $(TARGET)
 	pip install -r requirements.txt
 	cp -r $(NAME) $(PACKAGE_PATH)
-	chmod 751 $(PACKAGE_PATH)/gpm/gpm.py
-	ln -s $(PACKAGE_PATH)/gpm/gpm.py $(TARGET)
+	chmod 751 $(PACKAGE_PATH)/gpm/main.py
+	ln -s $(PACKAGE_PATH)/gpm/main.py $(TARGET)
 
 .PHONY: test
 test: $(PROJECT_FILE) $(TEST_FILE)
 	chmod 751 test/test.py
-	chmod 751 ./gpm/gpm.py
+	chmod 751 ./gpm/main.py
 	ln -s test/test.py $(TEST_TARGET)
-	ln -s ./gpm/gpm.py $(PROJECT_TEST)
+	ln -s ./gpm/main.py $(PROJECT_TEST)
 	./$(TEST_TARGET)
 	./$(PROJECT_TEST) -v
 
