@@ -7,7 +7,7 @@ TEST_TARGET  = test.out
 PROJECT_TEST = gpm.test
 PYPATH      := $(shell echo $$PYTHONPATH)
 
-export PYTHONPATH=$(PYPATH):./test:.
+$(shell export PYTHONPATH=$(PYPATH):./test:.)
 
 install:
 	pip install requirements.txt
@@ -22,6 +22,7 @@ test: $(PROJECT_FILE) $(TEST_FILE)
 	ln -s test/test.py $(TEST_TARGET)
 	ln -s ./gpm/gpm.py $(PROJECT_TEST)
 	./$(TEST_TARGET)
+	./$(PROJECT_TEST) -v
 
 .PHONY: clean
 clean:
