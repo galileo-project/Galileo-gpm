@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 import sys
-from gpm.cli import CLI
+from gpm.cli import run
 
 def main():
     args = sys.argv[1:]
-    cli = CLI(args)
-    cli.start()
+    run(args)
 
 if __name__ == "__main__":
     main()
