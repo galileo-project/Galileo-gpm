@@ -3,12 +3,14 @@ from gpm.utils.log import Log
 import pkgutil
 
 class CLI:
+    _DEFAULT_MOD = "default"
+
     def __init__(self, args):
         self._args = args
+        self._mods = {}
 
     def _default(self, *args, **kwargs):
-        self.__getattribute__(self._DEFAULT)(*args, **kwargs)
-        self._mods = {}
+        self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
     @property
     def mods(self):
@@ -23,9 +25,9 @@ class CLI:
 
     def _sub_cmd(self, args):
         if len(args) < 1:
-            return "default", []
+            return self._DEFAULT_MOD, []
         elif "-" in args[0]:
-            return "default", args[1:]
+            return self._DEFAULT_MOD, args[1:]
         else:
             return args[0], args[1:]
 
