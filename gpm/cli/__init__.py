@@ -19,7 +19,7 @@ class CLI:
 
 def _mods():
     mods = {}
-    for loader, module_name, is_pkg in pkgutil.walk_packages(__file__):
+    for loader, module_name, is_pkg in pkgutil.walk_packages(__path__):
         mod = loader.find_module(module_name).load_module(module_name)
         try:
             mods[module_name] = mod._MOD
