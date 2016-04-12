@@ -26,6 +26,11 @@ test: $(PROJECT_FILE) $(TEST_FILE)
 	./$(TEST_TARGET)
 	./$(PROJECT_TEST) -v
 
+.PHONY: uninstall
+uninstall:
+	rm -rf $(PACKAGE_PATH)/gpm
+	rm -f $(TARGET)
+
 .PHONY: clean
 clean:
 	-rm -f ./$(TEST_TARGET) ./$(PROJECT_TEST)
