@@ -18,7 +18,7 @@ install:
 	ln -s $(PACKAGE_PATH)/gpm/main.py $(TARGET)
 
 .PHONY: test
-test: $(PROJECT_FILE) $(TEST_FILE)
+test: $(PROJECT_FILE) $(TEST_FILE) clean
 	chmod 751 test/test.py
 	chmod 751 ./gpm/main.py
 	ln -s test/test.py $(TEST_TARGET)
