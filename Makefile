@@ -18,9 +18,9 @@ install:
 .PHONY: test
 test: $(PROJECT_FILE) $(TEST_FILE)
 	chmod 751 test/test.py
-	chmod 751 ./gpm/src/gpm.py
+	chmod 751 ./gpm/gpm.py
 	ln -s test/test.py $(TEST_TARGET)
-	ln -s ./gpm/src/gpm.py $(PROJECT_TEST)
+	ln -s ./gpm/gpm.py $(PROJECT_TEST)
 	./$(TEST_TARGET)
 
 .PHONY: clean
