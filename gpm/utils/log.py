@@ -1,17 +1,17 @@
-from gpm.utils.console import put
+from gpm.utils.console import puts
 from gpm.utils.color import yellow, red, magenta
 import sys
 
 class Log(object):
     @classmethod
     def warn(cls, msg):
-        put(yellow("WARN: %s" % msg))
+        puts(yellow("WARN: %s" % msg))
 
     @classmethod
     def fatal(cls, msg):
-        put(red("FATAL: %s" % msg))
+        puts(red("FATAL: %s" % msg))
         sys.exit(1)
 
     @classmethod
     def debug(cls, msg):
-        put(magenta("DEBUG: %s" % msg))
+        puts(magenta("DEBUG: %s" % msg))

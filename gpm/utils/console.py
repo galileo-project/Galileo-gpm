@@ -1,5 +1,5 @@
-def put(msg):
+def puts(msg):
     print(msg)
 
-def get(prompt):
+def gets(prompt):
     return input(prompt)
