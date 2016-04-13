@@ -51,8 +51,8 @@ class LocalOperation(object):
         path = LocalOperation.rel2abs(path)
         return os.path.exists(path)
 
-    @staticmethod
-    def rel2abs(path = None):
+    @classmethod
+    def rel2abs(cls, path = None):
         return os.path.abspath(path or os.curdir)
 
     @classmethod
