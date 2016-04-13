@@ -135,7 +135,7 @@ class GitHubClient(object):
         if not self._github:
             self._github = Github(self.__username, self.__password)
             if not self.__verify_login(self._github):
-                Log.fatal(Status["LOGIN_GITHUB_FAILED"])
+                Log.fatal(Status["STAT_LOGIN_GITHUB_FAILED"])
         return self._github
 
     def create_repo(self, name, *args, **kwargs):

@@ -1,8 +1,7 @@
 from gpm.utils.opt import opt_parser
 from gpm.utils.log import Log
-from gpm.utils.conf import ConfReader
-from gpm.settings import DEFAULT_MOD, GPM_YML
-from gpm.utils.operation import LocalOperation
+from gpm.utils.conf import GPMConf
+from gpm.settings import DEFAULT_MOD
 import pkgutil
 
 class CLI(object):
@@ -10,8 +9,7 @@ class CLI(object):
         self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
     def _run(self, args):
-        path = LocalOperation.rel2abs(GPM_YML)
-        config = ConfReader(path)
+        config = GPMConf()
         func, kwargs = opt_parser(args, self)
         if func is None:
             func = self._default
