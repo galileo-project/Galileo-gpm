@@ -5,7 +5,6 @@
 
 ## Python requirement
 
-|[x] | python 2.6   |
-|:--:|:------------:|
-|[x] | python 2.7   |
-|[x] | python 3.5   |
+* [x] python 2.6 
+* [x] python 2.7 
+* [x] python 3.5 
