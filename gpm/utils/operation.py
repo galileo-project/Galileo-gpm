@@ -9,13 +9,13 @@ class LocalOperation(object):
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls._exec("mkdir -p %s" % paths.join(" "), *args, **kwargs)
+        return cls._exec("mkdir -p %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def rm(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls._exec("rm -rf %s" % paths.join(" "), *args, **kwargs)
+        return cls._exec("rm -rf %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
@@ -31,7 +31,7 @@ class LocalOperation(object):
         path = LocalOperation.rel2abs(path)
         ret = cls._exec("cat %s" % path, *args, **kwargs)
         if isinstance(ret, list):
-            return ret.join("\n")
+            return "\n".join(ret)
         return ret
 
     @classmethod
@@ -56,6 +56,11 @@ class LocalOperation(object):
         return os.path.abspath(path or os.curdir)
 
     @classmethod
+    def add_file(cls, name, content = ""):
+        with open(name, "w+") as stream:
+            stream.write(content)
+
+    @classmethod
     def _exec(cls, cmd, *args, **kwargs):
         args = shlex.split(cmd)
         p = Popen(args, stderr=PIPE, stdout=PIPE, shell=True)
@@ -75,8 +80,8 @@ class LocalOperation(object):
 
         if output:
             if code != 0:
-                puts(err_strs.join("\n"))
+                puts("\n".join(err_strs))
                 return False
             else:
-                puts(out_strs.join("\n"))
+                puts("\n".join(out_strs))
                 return True
