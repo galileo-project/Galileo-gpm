@@ -9,27 +9,27 @@ class LocalOperation(object):
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls.__exec("mkdir -p %s" % paths.join(" "), *args, **kwargs)
+        return cls._exec("mkdir -p %s" % paths.join(" "), *args, **kwargs)
 
     @classmethod
     def rm(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls.__exec("rm -rf %s" % paths.join(" "), *args, **kwargs)
+        return cls._exec("rm -rf %s" % paths.join(" "), *args, **kwargs)
 
     @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        return cls.__exec("chmod %d %s" % (mod, path), *args, **kwargs)
+        return cls._exec("chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
     def exec(cls, cmd, *args, **kwargs):
-        return cls.__exec(cmd, *args, **kwargs)
+        return cls._exec(cmd, *args, **kwargs)
 
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        ret = cls.__exec("cat %s" % path, *args, **kwargs)
+        ret = cls._exec("cat %s" % path, *args, **kwargs)
         if isinstance(ret, list):
             return ret.join("\n")
         return ret
@@ -44,7 +44,7 @@ class LocalOperation(object):
     def append(cls, path, contents, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         content = contents.join("\n")
-        return cls.__exec("sed -i '$a %s' %s" % (content, path), *args, **kwargs)
+        return cls._exec("sed -i '$a %s' %s" % (content, path), *args, **kwargs)
 
     @classmethod
     def exist(cls, path):
@@ -56,7 +56,7 @@ class LocalOperation(object):
         return os.path.abspath(path or os.curdir)
 
     @classmethod
-    def __exec(cls, cmd, *args, **kwargs):
+    def _exec(cls, cmd, *args, **kwargs):
         args = shlex.split(cmd)
         p = Popen(args, stderr=PIPE, stdout=PIPE, shell=True)
         return cls.__parser(p, *args, **kwargs)

@@ -1,7 +1,12 @@
 import requests
+import git
+from gpm.utils.operation import LocalOperation
 
-class GitClient:
+class GitClient(LocalOperation):
     def __init__(self):
+        pass
+
+    def clone(self, path):
         pass
 
     def pull(self):
