@@ -7,4 +7,4 @@
 
 * [x] python 2.6 
 * [x] python 2.7 
-* [x] python 3.4
+* [x] python 3.x
