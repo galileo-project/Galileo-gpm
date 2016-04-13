@@ -8,6 +8,10 @@ class ConfReader(object):
     def read(self):
         with open(self.path, "r") as stream:
             self.content = yaml.load(stream)
+
+    def write(self,path, data):
+        with open(path, "w+") as stream:
+            self.content = yaml.dump(data, stream)
         
     @property
     def author(self):
