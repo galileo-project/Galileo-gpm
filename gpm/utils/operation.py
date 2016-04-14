@@ -40,7 +40,7 @@ class LocalOperation(object):
 
     @classmethod
     def cat(cls, paths):
-        if isinstance(paths, list):
+        if not isinstance(paths, list):
             paths = [paths]
 
         ret = cls.__exec("cat %s" % " ".join(paths), ret = True)
