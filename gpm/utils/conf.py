@@ -1,5 +1,5 @@
 import yaml
-from gpm.utils.console import gets, puts
+from gpm.utils.console import gets
 from gpm.utils.log import Log
 from gpm.utils.operation import LocalOperation
 from gpm.settings import GPM_YML

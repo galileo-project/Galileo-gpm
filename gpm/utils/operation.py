@@ -25,8 +25,8 @@ class LocalOperation(object):
         return cls._exec("chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
-    def exec(cls, cmd, *args, **kwargs):
-        return cls._exec(cmd, *args, **kwargs)
+    def exec(cls, *args, **kwargs):
+        return cls._exec(*args, **kwargs)
 
     @classmethod
     def cat(cls, path, *args, **kwargs):
