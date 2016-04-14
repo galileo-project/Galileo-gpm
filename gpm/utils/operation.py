@@ -11,27 +11,27 @@ class LocalOperation(object):
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls._exec("mkdir -p %s" % " ".join(paths), *args, **kwargs)
+        return cls.__exec(cls, "mkdir -p %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def rm(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls._exec("rm -rf %s" % " ".join(paths), *args, **kwargs)
+        return cls.__exec(cls, "rm -rf %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        return cls._exec("chmod %d %s" % (mod, path), *args, **kwargs)
+        return cls.__exec(cls, "chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
     def exec(cls, *args, **kwargs):
-        return cls._exec(*args, **kwargs)
+        return cls.__exec(cls, *args, **kwargs)
 
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        ret = cls._exec("cat %s" % path, *args, **kwargs)
+        ret = cls.__exec(cls, "cat %s" % path, *args, **kwargs)
         if isinstance(ret, list):
             return "\n".join(ret)
         return ret
@@ -46,7 +46,7 @@ class LocalOperation(object):
     def append(cls, path, contents, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         content = contents.join("\n")
-        return cls._exec("sed -i '$a %s' %s" % (content, path), *args, **kwargs)
+        return cls.__exec(cls, "sed -i '$a %s' %s" % (content, path), *args, **kwargs)
 
     @classmethod
     def exist(cls, path):
@@ -62,14 +62,13 @@ class LocalOperation(object):
         with open(name, "w+") as stream:
             stream.write(content)
 
-    @classmethod
-    def _exec(cls, cmd, *args, **kwargs):
+    def __exec(self, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)
         p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
-        return cls.__parser(p, *args, **kwargs)
+        return self.__parser(p, *args, **kwargs)
 
-    @classmethod
-    def __parser(cls, process, ret = True, output = False, *args, **kwargs):
+    @staticmethod
+    def __parser(process, ret = True, output = False, *args, **kwargs):
         code     = process.poll()
         out_strs = process.stdout.readlines()
         err_strs = process.stderr.readlines()
@@ -91,5 +90,3 @@ class LocalOperation(object):
                 puts("\n".join(out_strs))
                 return True
 
-if __name__ == "__main__":
-    LocalOperation.exec("dir", output=True)
