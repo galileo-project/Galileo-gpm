@@ -41,10 +41,10 @@ class LocalOperation(object):
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        ret = cls.__exec("cat %s" % path, *args, **kwargs)
-        if isinstance(ret, list):
-            return "\n".join(ret)
-        return ret
+        with open(path, "r") as stream:
+            lines = [str_decode(line) for line in stream.readlines()]
+
+        return "\n".join(lines)
 
     @classmethod
     def distr(cls):
@@ -86,7 +86,7 @@ class LocalOperation(object):
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
         res = False
-        process.wait(2)
+        process.wait(200)
         code = process.poll()
 
         Log.debug("Exit code %s" % str(code))
