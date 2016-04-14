@@ -15,7 +15,7 @@ install: $(PROJECT_FILE) uninstall
 	cp -r script/* $(TARGET_DIR)
 
 .PHONY: test
-test: unitTest installTest clean
+test: uninstall unitTest installTest clean
 
 .PHONY: unitTest
 unitTest: $(PROJECT_FILE) $(TEST_FILE) clean
