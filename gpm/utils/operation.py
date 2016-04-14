@@ -87,6 +87,7 @@ class LocalOperation(object):
         process.wait(3000)
         code = process.poll()
         if not isinstance(code, int):
+            Log.debug("Exit code %s" % str(code))
             Log.fatal(Status["STAT_EXEC_ERROR"])
 
         out_strs = process.stdout.readlines()
