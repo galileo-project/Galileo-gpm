@@ -11,7 +11,7 @@ class CLIDefault(CLI):
     """
 
     def _version(self, *args, **kwargs):
-        #puts(LocalOperation.distr())
+        puts(LocalOperation.distr())
         puts("%s %s" % (name, version))
 
     def _help(self, *args, **kwargs):
