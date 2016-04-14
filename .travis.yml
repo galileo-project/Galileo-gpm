@@ -5,5 +5,5 @@ python:
     - 3.4
 
 script:
-    export PYTHONPATH=$(pwd)
-    make test
+    - export PYTHONPATH=$(pwd)
+    - make test
