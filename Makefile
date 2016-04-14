@@ -6,9 +6,7 @@ PROJECT_FILE = $(wildcard ./gpm/*/*.py)
 TEST_FILE    = $(wildcard ./test/*.py)
 TEST_TARGET  = test.out
 PROJECT_TEST = gpm.test
-PYPATH      := $(shell echo $$PYTHONPATH)
 SCRIPTS      = $(wildcard ./gpm/script/*)
-$(shell export PYTHONPATH=$(PYPATH):./test:.)
 
 install: uninstall
 	pip install -r requirements.txt
