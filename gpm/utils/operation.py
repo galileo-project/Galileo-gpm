@@ -49,6 +49,7 @@ class LocalOperation(object):
     @classmethod
     def distr(cls):
         ret = cls.cat("/etc/*-release", ret=True)
+        Log.debug(ret)
         re_distri = re.compile(r'PRETTY_NAME=\"(.*?)\"')
         return re_distri.findall(ret)[0]
 
