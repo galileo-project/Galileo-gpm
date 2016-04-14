@@ -16,7 +16,7 @@ class LocalOperation(object):
             if LocalOperation.exist(path):
                 paths.remove(path)
 
-        return cls.__exec(cls, "mkdir -p %s" % " ".join(paths), *args, **kwargs)
+        return cls.__exec("mkdir -p %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def rm(cls, paths, *args, **kwargs):
@@ -24,23 +24,23 @@ class LocalOperation(object):
             paths = [paths]
 
         if paths:
-            return cls.__exec(cls, "rm -rf %s" % " ".join(paths), *args, **kwargs)
+            return cls.__exec("rm -rf %s" % " ".join(paths), *args, **kwargs)
         else:
             return True
 
     @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        return cls.__exec(cls, "chmod %d %s" % (mod, path), *args, **kwargs)
+        return cls.__exec("chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
     def run(cls, *args, **kwargs):
-        return cls.__exec(cls, *args, **kwargs)
+        return cls.__exec(*args, **kwargs)
 
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        ret = cls.__exec(cls, "cat %s" % path, *args, **kwargs)
+        ret = cls.__exec("cat %s" % path, *args, **kwargs)
         if isinstance(ret, list):
             return "\n".join(ret)
         return ret
@@ -55,7 +55,7 @@ class LocalOperation(object):
     def append(cls, path, contents, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         content = contents.join("\n")
-        return cls.__exec(cls, "sed -i '$a %s' %s" % (content, path), *args, **kwargs)
+        return cls.__exec("sed -i '$a %s' %s" % (content, path), *args, **kwargs)
 
     @classmethod
     def exist(cls, path):
@@ -75,10 +75,11 @@ class LocalOperation(object):
     def user(self):
         return os.getenv("USER")
 
-    def __exec(self, cmd, *args, **kwargs):
+    @classmethod
+    def __exec(cls, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)
         p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
-        return self.__parser(p, *args, **kwargs)
+        return LocalOperation.__parser(p, *args, **kwargs)
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
