@@ -5,6 +5,7 @@ import os
 from gpm.utils.console import puts
 from gpm.utils.log import Log
 from gpm.settings.status import Status
+from gpm.utils.string import decode as str_decode
 
 class LocalOperation(object):
     @classmethod
@@ -84,26 +85,30 @@ class LocalOperation(object):
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
+        ret = False
         process.wait(3000)
         code = process.poll()
+        print(code)
         if not isinstance(code, int):
             Log.debug("Exit code %s" % str(code))
             Log.fatal(Status["STAT_EXEC_ERROR"])
 
-        out_strs = process.stdout.readlines()
-        err_strs = process.stderr.readlines()
+        out_strs = [str_decode(line) for line in process.stdout.readlines()]
+        err_strs = [str_decode(line) for line in process.stderr.readlines()]
 
         if ret:
             if code != 0:
-                return False
+                ret = False
             else:
-                return out_strs
+                ret = out_strs
 
         if output:
             if code != 0:
                 puts("\n".join(err_strs))
-                return False
+                ret = False
             else:
                 puts("\n".join(out_strs))
-                return True
+                ret = True
+
+        return ret
 
