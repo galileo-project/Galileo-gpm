@@ -43,5 +43,5 @@ def run(args):
         mods[sub_cmd]()._run(sub_arg)
     except KeyboardInterrupt:
         Log.puts(Status["STAT_EXIT"])
-    except:
-        pass
+    except Exception as e:
+        Log.fatal(str(e))
