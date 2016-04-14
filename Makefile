@@ -10,12 +10,11 @@ SCRIPTS      = $(wildcard ./gpm/script/*)
 
 install: uninstall
 	pip install -r requirements.txt
-	cp -r $(PACKAGE) $(PACKAGE_PATH)
-	chmod 751 $(PACKAGE_PATH)/gpm/script/*
+	python setup.py install
 	cp $(PACKAGE_PATH)/gpm/script/* $(TARGET_DIR)
 
 .PHONY: test
-test: unitTest installTest
+test: unitTest installTest clean
 
 .PHONY: unitTest
 unitTest: $(PROJECT_FILE) $(TEST_FILE) clean
@@ -24,7 +23,7 @@ unitTest: $(PROJECT_FILE) $(TEST_FILE) clean
 	./$(TEST_TARGET)
 
 .PHONY: installTest
-installTest:
+installTest: install
 	gpm -v
 
 .PHONY: uninstall

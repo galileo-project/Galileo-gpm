@@ -7,6 +7,5 @@ python:
 
 script:
     - export PYTHONPATH=$(pwd)
-    - python setup.py install
     - cp -r gpm/script/* /usr/local/bin
     - make test
