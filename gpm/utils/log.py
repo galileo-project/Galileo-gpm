@@ -9,8 +9,11 @@ class Log(object):
 
     @classmethod
     def fatal(cls, msg):
-        puts(red("FATAL: %s" % msg))
-        sys.exit(1)
+        msg =red("FATAL: %s" % msg)
+        sys.stderr.write(msg)
+        e = SystemExit(1)
+        e.message = msg
+        raise e
 
     @classmethod
     def debug(cls, msg):
