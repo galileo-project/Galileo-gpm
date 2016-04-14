@@ -3,8 +3,8 @@ import os
 from gpm.utils.console import gets
 from gpm.utils.log import Log
 from gpm.utils.operation import LocalOperation
-from gpm.settings import GPM_YML, SYS_CONF
-from gpm.settings.status import Status
+from gpm.const import GPM_YML, SYS_CONF
+from gpm.const.status import Status
 
 class _Conf(object):
     def __init__(self, path):

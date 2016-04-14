@@ -1,6 +1,6 @@
 import getopt
 from gpm.utils.log import Log
-from gpm.settings.status import Status
+from gpm.const.status import Status
 
 def get_opt_name(opt):
     if "--" in opt:

@@ -1,4 +1,4 @@
-from gpm.settings import GPM_YML
+from gpm.const import GPM_YML
 
 Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_LOGIN_GITHUB_FAILED":   "Login GitHub failed",

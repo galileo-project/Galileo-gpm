@@ -1,8 +1,8 @@
 from gpm.utils.opt import opt_parser
 from gpm.utils.log import Log
 from gpm.utils.conf import GPMConf
-from gpm.settings import DEFAULT_MOD
-from gpm.settings.status import Status
+from gpm.const import DEFAULT_MOD
+from gpm.const.status import Status
 import pkgutil
 
 class CLI(object):

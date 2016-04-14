@@ -2,7 +2,7 @@ from gpm.utils.console import puts
 from gpm.utils.operation import LocalOperation
 from gpm.cli import CLI
 from gpm.utils.log import Log
-from gpm.settings.status import Status
+from gpm.const.status import Status
 
 class CLIBuild(CLI):
     _OPTS     = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_build"}

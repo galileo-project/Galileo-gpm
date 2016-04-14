@@ -4,7 +4,7 @@ import re
 import os
 from gpm.utils.console import puts
 from gpm.utils.log import Log
-from gpm.settings.status import Status
+from gpm.const.status import Status
 from gpm.utils.string import decode as str_decode
 
 class LocalOperation(object):

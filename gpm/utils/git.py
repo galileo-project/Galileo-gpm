@@ -4,7 +4,7 @@ from git import Repo
 from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
-from gpm.settings.status import Status
+from gpm.const.status import Status
 
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
