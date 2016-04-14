@@ -6,4 +6,7 @@ python:
 
 script:
     - export PYTHONPATH=$(pwd)
+    - cp -r gpm /home/travis/virtualenv/python*/lib/python*/site-packages
+    - ls /home/travis/virtualenv/
+    - cp -r gpm/script/* /usr/local/bin
     - make test

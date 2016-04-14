@@ -1,7 +1,7 @@
 TARGET_DIR   = /usr/bin
 TARGET       = $(TARGET_DIR)/gpm
 PACKAGE      = gpm
-PACKAGE_PATH = /usr/lib/python*/site-package
+PACKAGE_PATH = /usr/lib/python*/site-packages
 PROJECT_FILE = $(wildcard ./gpm/*/*.py)
 TEST_FILE    = $(wildcard ./test/*.py)
 TEST_TARGET  = test.out
@@ -24,7 +24,7 @@ unitTest: $(PROJECT_FILE) $(TEST_FILE) clean
 	./$(TEST_TARGET)
 
 .PHONY: installTest
-installTest: install
+installTest:
 	gpm -v
 
 .PHONY: uninstall
