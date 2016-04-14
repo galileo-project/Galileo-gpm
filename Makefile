@@ -8,10 +8,11 @@ TEST_TARGET  = test.out
 PROJECT_TEST = gpm.test
 SCRIPTS      = $(wildcard ./gpm/script/*)
 
-install: uninstall
+install: $(PROJECT_FILE) uninstall
 	pip install -r requirements.txt
 	python setup.py install
-	cp $(PACKAGE_PATH)/gpm/script/* $(TARGET_DIR)
+	chmod 751 script/*
+	cp script/* $(TARGET_DIR)
 
 .PHONY: test
 test: unitTest installTest clean

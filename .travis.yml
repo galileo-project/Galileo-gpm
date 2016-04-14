@@ -7,5 +7,5 @@ python:
 
 script:
     - export PYTHONPATH=$(pwd)
-    - cp -r gpm/script/* /usr/local/bin
+    - cp -r script/* ~/bin
     - make test

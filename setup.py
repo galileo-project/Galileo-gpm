@@ -24,5 +24,4 @@ setup(
     license=LICENSE,
     url=URL,
     packages=find_packages(exclude=["test", "script", "resource"]),
-    zip_safe=False,
 )
