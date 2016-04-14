@@ -27,8 +27,8 @@ class _Conf(object):
 #####################################
 
 class GPMConf(_Conf):
-    def __init__(self):
-        path = LocalOperation.rel2abs(GPM_YML)
+    def __init__(self, path = None):
+        path = LocalOperation.rel2abs(path or GPM_YML)
         _Conf.__init__(self, path)
 
     @property
@@ -109,8 +109,8 @@ class GPMConf(_Conf):
 #####################################
 
 class SYSConf(_Conf):
-    def __init__(self):
-        path = LocalOperation.rel2abs(SYS_CONF)
+    def __init__(self, path):
+        path = LocalOperation.rel2abs(path or SYS_CONF)
         _Conf.__init__(self, path)
 
     @property
