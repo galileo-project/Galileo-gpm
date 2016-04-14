@@ -12,7 +12,7 @@ install: $(PROJECT_FILE) uninstall
 	pip install -r requirements.txt
 	python setup.py install
 	chmod 751 script/*
-	cp script/* $(TARGET_DIR)
+	cp -r script/* $(TARGET_DIR)
 
 .PHONY: test
 test: unitTest installTest clean

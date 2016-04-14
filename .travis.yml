@@ -7,5 +7,4 @@ python:
 
 script:
     - export PYTHONPATH=$(pwd)
-    - cp -r script/* ~/bin
-    - make test
+    - sudo make test
