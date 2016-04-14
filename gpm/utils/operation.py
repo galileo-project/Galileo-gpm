@@ -41,7 +41,7 @@ class LocalOperation(object):
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        full_path = cls.find(path)
+        full_path = cls.find(path, ret = True)
         Log.debug("Cat %s" % full_path)
         with open(full_path, "r") as stream:
             lines = [str_decode(line) for line in stream.readlines()]
@@ -49,8 +49,10 @@ class LocalOperation(object):
         return "\n".join(lines)
 
     @classmethod
-    def find(cls, path):
-        ret = cls.__exec("find %s" % path, ret = True)
+    def find(cls, path, *args, **kwargs):
+        target_path = os.path.dirname(path)
+        target_name = os.path.basename(path)
+        ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
 
         if ret:
             return ret[0]
@@ -92,7 +94,7 @@ class LocalOperation(object):
     def __exec(cls, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)
         Log.debug(cmd_args)
-        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=True)
+        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
     @staticmethod
