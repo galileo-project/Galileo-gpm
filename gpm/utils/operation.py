@@ -55,7 +55,7 @@ class LocalOperation(object):
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
 
         if ret:
-            return ret[0]
+            return cls.string_clean(ret[0])
         else:
             return None
 
@@ -96,6 +96,12 @@ class LocalOperation(object):
         Log.debug(cmd_args)
         p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
+
+    @staticmethod
+    def string_clean(string):
+        ret = string.replace("\n", "")
+        ret = string.replace("\t", "")
+        return ret
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
