@@ -98,7 +98,7 @@ class LocalOperation(object):
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
         res = False
-        process.wait(200)
+        process.wait()
         code = process.poll()
 
         Log.debug("Exit code %s" % str(code))
