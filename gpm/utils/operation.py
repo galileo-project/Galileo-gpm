@@ -43,7 +43,7 @@ class LocalOperation(object):
         if isinstance(paths, list):
             paths = [paths]
 
-        ret = cls.__exec("cat %s" " ".join(paths), ret = True)
+        ret = cls.__exec("cat %s" % " ".join(paths), ret = True)
         if ret:
             return "\n".join(ret)
         else:
