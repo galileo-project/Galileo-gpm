@@ -39,7 +39,18 @@ class LocalOperation(object):
         return cls.__exec(*args, **kwargs)
 
     @classmethod
-    def cat(cls, path, *args, **kwargs):
+    def cat(cls, paths):
+        if isinstance(paths, list):
+            paths = [paths]
+
+        ret = cls.__exec("cat %s" " ".join(paths), ret = True)
+        if ret:
+            return "\n".join(ret)
+        else:
+            return None
+
+    @classmethod
+    def read(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         full_path = cls.find(path, ret = True)
         Log.debug("Cat %s" % full_path)
@@ -61,11 +72,9 @@ class LocalOperation(object):
 
     @classmethod
     def distr(cls):
-        ret = cls.cat("/etc/*-release", ret=True)
-        if ret:
-            return ret.split("\n")[0]
-        else:
-            return ""
+        ret = cls.cat("/etc/*-release")
+        re_distri = re.compile(r'PRETTY_NAME=\"(.*?)\"')
+        return re_distri.findall(ret)[0]
 
     @classmethod
     def append(cls, path, contents, *args, **kwargs):
