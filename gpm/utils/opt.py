@@ -15,7 +15,6 @@ def opt_parser(args, obj):
     _dict = {}
     func = None
 
-    Log.debug(optlist)
     for opt in optlist:
         opt_name, opt_type = get_opt_name(opt[0])
         if opt_name and opt_type is True:
