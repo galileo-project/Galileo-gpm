@@ -13,7 +13,7 @@ def get_opt_name(opt):
 def opt_parser(args, obj):
     optlist, args = getopt.getopt(args, obj._OPTS["shortcut"], obj._OPTS["fullname"])
     _dict = {}
-    func  = None
+    func = None
 
     for opt in optlist:
         opt_name, opt_type = get_opt_name(opt[0])

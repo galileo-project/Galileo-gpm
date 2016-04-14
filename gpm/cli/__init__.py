@@ -2,18 +2,21 @@ from gpm.utils.opt import opt_parser
 from gpm.utils.log import Log
 from gpm.utils.conf import GPMConf
 from gpm.settings import DEFAULT_MOD
+from gpm.settings.status import Status
 import pkgutil
 
 class CLI(object):
+    def __init__(self):
+        self.config = GPMConf()
+
     def _default(self, *args, **kwargs):
         self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
     def _run(self, args):
-        config = GPMConf()
         func, kwargs = opt_parser(args, self)
         if func is None:
             func = self._default
-        func(config, **kwargs)
+        func(**kwargs)
 
 def _mods():
     mods = {}
@@ -22,7 +25,7 @@ def _mods():
         try:
             mods[module_name] = mod._MOD
         except:
-            Log.warn("Load %s error." % module_name)
+            Log.warn(Status["STAT_LOAD_MOD_ERROR"] % module_name)
     return mods
 
 def _sub_cmd(args):
