@@ -51,10 +51,8 @@ class LocalOperation(object):
 
     @classmethod
     def read(cls, path, *args, **kwargs):
-        path = LocalOperation.rel2abs(path)
-        full_path = cls.find(path, ret = True)
-        Log.debug("Cat %s" % full_path)
-        with open(full_path, "r") as stream:
+        path = cls.string_clean(path)
+        with open(path, "r") as stream:
             lines = [str_decode(line) for line in stream.readlines()]
 
         return "\n".join(lines)
@@ -64,15 +62,14 @@ class LocalOperation(object):
         target_path = os.path.dirname(path)
         target_name = os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
+        rets = [cls.string_clean(i) for i in ret]
 
-        if ret:
-            return cls.string_clean(ret[0])
-        else:
-            return None
+        return rets
 
     @classmethod
     def distr(cls):
-        ret = cls.cat("/etc/*-release")
+        paths = cls.find("/etc/*-release")
+        ret = cls.cat(paths)
         re_distri = re.compile(r'PRETTY_NAME=\"(.*?)\"')
         return re_distri.findall(ret)[0]
 
