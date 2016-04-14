@@ -85,7 +85,8 @@ class LocalOperation(object):
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
-        ret = False
+        res = False
+        process.wait()
         code = process.poll()
         if not isinstance(code, int):
             Log.debug("Exit code %s" % str(code))
@@ -99,17 +100,17 @@ class LocalOperation(object):
 
         if ret:
             if code != 0:
-                ret = False
+                res = False
             else:
-                ret = out_strs
+                res = out_strs
 
         if output:
             if code != 0:
                 puts("\n".join(err_strs))
-                ret = False
+                res = False
             else:
                 puts("\n".join(out_strs))
-                ret = True
+                res = True
 
-        return ret
+        return res
 
