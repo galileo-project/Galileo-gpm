@@ -5,7 +5,7 @@ from gpm.cli import CLI
 from gpm.utils.operation import LocalOperation
 
 class CLIDefault(CLI):
-    _OPTS    = {"shortcut": "vh", "fullname": ["version", "help"], "action": ["_version", "_help"], "default": "_version"}
+    _OPTS    = {"shortcut": "vh", "fullname": ["version", "help"], "action": ["_version", "_help"], "default": "_help"}
     __doc__ = """
 
     """

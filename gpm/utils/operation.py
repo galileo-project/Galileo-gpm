@@ -96,6 +96,9 @@ class LocalOperation(object):
         out_strs = [str_decode(line) for line in process.stdout.readlines()]
         err_strs = [str_decode(line) for line in process.stderr.readlines()]
 
+        Log.debug(out_strs)
+        Log.debug(err_strs)
+
         if ret:
             if code != 0:
                 ret = False
