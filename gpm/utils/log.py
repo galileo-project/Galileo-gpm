@@ -19,3 +19,7 @@ class Log(object):
     @classmethod
     def success(cls, msg):
         puts(green("SUCCESS: %s" % msg))
+
+    @classmethod
+    def puts(cls, msg):
+        puts("SUCCESS: %s" % msg)

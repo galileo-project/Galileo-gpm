@@ -39,4 +39,9 @@ def _sub_cmd(args):
 def run(args):
     mods = _mods()
     sub_cmd, sub_arg = _sub_cmd(args)
-    mods[sub_cmd]()._run(sub_arg)
+    try:
+        mods[sub_cmd]()._run(sub_arg)
+    except KeyboardInterrupt:
+        Log.puts(Status["STAT_EXIT"])
+    except:
+        Log.fatal(Status["STAT_UNKNOWN_ERROR"])

@@ -10,4 +10,6 @@ Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_BUILD_SUCCESS":         "Build success",
           "STAT_INSTALL_ERROR":         "Install error: %s",
           "STAT_INPUT_EMPTY":           "%s can't empty",
-          "STAT_INSTALL_SUCCESS":       "Install success",}
+          "STAT_INSTALL_SUCCESS":       "Install success",
+          "STAT_UNKNOWN_ERROR":         "Unknown error",
+          "STAT_EXIT":                  "exit"}
