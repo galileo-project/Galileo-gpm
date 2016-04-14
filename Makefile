@@ -7,10 +7,13 @@ TEST_FILE    = $(wildcard ./test/*.py)
 TEST_TARGET  = test.out
 PROJECT_TEST = gpm.test
 SCRIPTS      = $(wildcard ./gpm/script/*)
+CONF_DIR     = /etc/gpm
 
 install: $(PROJECT_FILE) uninstall
 	pip install -r requirements.txt
 	python setup.py install
+	mkdir -p $(CONF_DIR)
+	cp -r resource/* $(CONF_DIR)
 	chmod 751 script/*
 	cp -r script/* $(TARGET_DIR)
 
