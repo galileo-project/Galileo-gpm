@@ -21,7 +21,7 @@ class GitClient(LocalOperation):
     @property
     def github_url(self):
         if not self.__github_url:
-            user_url = self._config.git or "git@github.com:%s" % self.user_account[0]
+            user_url = self._config.git_url or "git@github.com:%s" % self.user_account[0]
             self.__github_url = self.safe_urljoin(user_url, "%s.git" % self._config.name)
         return self.__github_url
 

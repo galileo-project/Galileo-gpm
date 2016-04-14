@@ -1,23 +1,36 @@
 import yaml
+import os
 from gpm.utils.console import gets
 from gpm.utils.log import Log
 from gpm.utils.operation import LocalOperation
-from gpm.settings import GPM_YML
+from gpm.settings import GPM_YML, SYS_CONF
 from gpm.settings.status import Status
 
-class GPMConf(object):
-    def __init__(self):
-        self.path = LocalOperation.rel2abs(GPM_YML)
+class _Conf(object):
+    def __init__(self, path):
+        self.path = path
         self.content = {}
-        
+
     def read(self):
         with open(self.path, "r") as stream:
             self.content = yaml.load(stream)
 
     def write(self, path, data):
+        LocalOperation.mkdir(os.path.dirname(path))
         with open(path, "w+") as stream:
             self.content = yaml.dump(data, stream)
-        
+
+#####################################
+#                                   #
+#          GPM Configure            #
+#                                   #
+#####################################
+
+class GPMConf(_Conf):
+    def __init__(self):
+        path = LocalOperation.rel2abs(GPM_YML)
+        _Conf.__init__(self, path)
+
     @property
     def author(self):
         return self.content.get("author", "")
@@ -40,51 +53,54 @@ class GPMConf(object):
 
     @property
     def build(self):
-        return self.content.get("build", "")
+        return self.content.get("build", [])
 
     @property
     def install(self):
-        return self.content.get("install", "")
+        return self.content.get("install", [])
 
     @property
     def test(self):
-        return self.content.get("test", "")
+        return self.content.get("test", [])
 
     @property
     def dep(self):
-        return self.content.get("dep", "")
+        return self.content.get("dep", [])
 
     @property
     def name(self):
         return self.content.get("name", "")
 
     @property
-    def git(self):
+    def git_url(self):
         git = self.content.get("git", "")
         if ".git" in git:
             git = "/".join(git.split("/")[:-1])
         return git
 
     def create_conf(self):
+        sysConf = SYSConf()
         if LocalOperation.exist(self.path):
             Log.warn(Status["STAT_GPM_CONF_EXIST"])
             return
-        content = {}
-        sections = [("language",    False),
-                    ("author",      False),
-                    ("version",     False),
-                    ("email",       False),
-                    ("description", False),
-                    ("name",        True),
-                    ("git",         False,)]
+                      #key          empty   prompt                                    default
+        sections = [("language",    False, "project language",                        None),
+                    ("author",      False, "author name",                             sysConf.author),
+                    ("version",     False, "initial version",                         None),
+                    ("email",       False, "author email",                            sysConf.email),
+                    ("description", False, "project description",                     None),
+                    ("name",        True,  "project name",                            None),
+                    ("git_url",     False, "author git url[git@github.com:yourname]", sysConf.git_url)]
 
         for section in sections:
             while(1):
-                content[section[0]] = gets("Input project's %s" % section[0])
-                if not content[section[0]]:
-                    Log.warn("%s can't empty." % section[0])
+                self.content[section[0]] = gets("Input %s" % section[2], section[3])
+                if not self.content[section[0]] and section[1]:
+                    Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
+                else:
+                    break
 
-        self.write(self.path, content)
+        self.write(self.path, self.content)
 
 #####################################
 #                                   #
@@ -92,6 +108,38 @@ class GPMConf(object):
 #                                   #
 #####################################
 
-class SYSConf(object):
+class SYSConf(_Conf):
     def __init__(self):
-        pass            #TODO implement
+        path = LocalOperation.rel2abs(SYS_CONF)
+        _Conf.__init__(self, path)
+
+    @property
+    def author(self):
+        return self.content.get("author", "")
+
+    @property
+    def email(self):
+        return self.content.get("email", "")
+
+    @property
+    def git_url(self):
+        return self.content.get("git_url", "")
+
+    def generate(self):
+        if LocalOperation.exist(self.path):
+            Log.warn(Status["STAT_SYS_CONF_EXIST"])
+            return
+                      #key          empty   prompt                                    default
+        sections = [("author",  False, "user name",                             LocalOperation.user),
+                    ("email",   False, "user email",                            None),
+                    ("git_url", False, "user git url[git@github.com:yourname]", None)]
+
+        for section in sections:
+            while(1):
+                self.content[section[0]] = gets("Input %s" % section[2], section[3])
+                if not self.content[section[0]] and section[1]:
+                    Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
+                else:
+                    break
+
+        self.write(self.path, self.content)

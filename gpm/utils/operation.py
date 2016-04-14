@@ -11,13 +11,22 @@ class LocalOperation(object):
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
+
+        for path in paths:
+            if LocalOperation.exist(path):
+                paths.remove(path)
+
         return cls.__exec(cls, "mkdir -p %s" % " ".join(paths), *args, **kwargs)
 
     @classmethod
     def rm(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
             paths = [paths]
-        return cls.__exec(cls, "rm -rf %s" % " ".join(paths), *args, **kwargs)
+
+        if paths:
+            return cls.__exec(cls, "rm -rf %s" % " ".join(paths), *args, **kwargs)
+        else:
+            return True
 
     @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
@@ -61,6 +70,10 @@ class LocalOperation(object):
     def add_file(cls, name, content = ""):
         with open(name, "w+") as stream:
             stream.write(content)
+
+    @property
+    def user(self):
+        return os.getenv("USER")
 
     def __exec(self, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)

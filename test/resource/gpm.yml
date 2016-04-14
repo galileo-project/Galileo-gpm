@@ -4,7 +4,7 @@ version:     1.0
 email:       xx@xx.com
 description: some description
 name:        gpm-demo
-git:         git@github.com:tor4z
+git_url:     git@github.com:tor4z
 
 build:
   - make
