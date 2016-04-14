@@ -17,13 +17,17 @@ install: uninstall
 	cp $(PACKAGE_PATH)/gpm/script/* $(TARGET_DIR)
 
 .PHONY: test
-test: $(PROJECT_FILE) $(TEST_FILE) clean
+test: unitTest installTest
+
+.PHONY: unitTest
+unitTest: $(PROJECT_FILE) $(TEST_FILE) clean
 	chmod 751 test/test.py
-	chmod 751 ./gpm/script/*
 	ln -s test/test.py $(TEST_TARGET)
-	ln -s ./gpm/script/gpm $(PROJECT_TEST)
 	./$(TEST_TARGET)
-	./$(PROJECT_TEST) -v
+
+.PHONY: installTest
+installTest: install
+	gpm -v
 
 .PHONY: uninstall
 uninstall:
