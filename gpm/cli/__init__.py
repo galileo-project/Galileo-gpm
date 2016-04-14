@@ -32,7 +32,7 @@ def _sub_cmd(args):
     if len(args) < 1:
         return DEFAULT_MOD, []
     elif "-" in args[0]:
-        return DEFAULT_MOD, args[1:]
+        return DEFAULT_MOD, args
     else:
         return args[0], args[1:]
 
