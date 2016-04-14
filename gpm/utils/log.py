@@ -27,4 +27,4 @@ class Log(object):
 
     @classmethod
     def puts(cls, msg):
-        puts("SUCCESS: %s" % msg)
+        puts("%s" % msg)
