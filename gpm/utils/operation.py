@@ -41,12 +41,21 @@ class LocalOperation(object):
     @classmethod
     def cat(cls, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
-        Log.debug("Cat %s" % path)
-        with open(path, "r") as stream:
+        full_path = cls.find(path)
+        Log.debug("Cat %s" % full_path)
+        with open(full_path, "r") as stream:
             lines = [str_decode(line) for line in stream.readlines()]
-            Log.debug("".join(lines))
 
         return "\n".join(lines)
+
+    @classmethod
+    def find(cls, path):
+        ret = cls.__exec("find %s" % path, ret = True)
+
+        if ret:
+            return ret[0]
+        else:
+            return None
 
     @classmethod
     def distr(cls):
