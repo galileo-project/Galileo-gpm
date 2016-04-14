@@ -62,8 +62,8 @@ class LocalOperation(object):
 
     @classmethod
     def _exec(cls, cmd, *args, **kwargs):
-        args = shlex.split(cmd)
-        p = Popen(args, stderr=PIPE, stdout=PIPE, shell=True)
+        cmd_args = shlex.split(cmd)
+        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=True)
         return cls.__parser(p, *args, **kwargs)
 
     @classmethod
