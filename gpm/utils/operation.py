@@ -3,6 +3,8 @@ import shlex
 import re
 import os
 from gpm.utils.console import puts
+from gpm.utils.log import Log
+from gpm.settings.status import Status
 
 class LocalOperation(object):
     @classmethod
@@ -63,7 +65,7 @@ class LocalOperation(object):
     @classmethod
     def _exec(cls, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)
-        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=True)
+        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
         return cls.__parser(p, *args, **kwargs)
 
     @classmethod
@@ -71,6 +73,9 @@ class LocalOperation(object):
         code     = process.poll()
         out_strs = process.stdout.readlines()
         err_strs = process.stderr.readlines()
+
+        if not isinstance(code, int):
+            Log.fatal(Status["STAT_EXEC_ERROR"])
 
         if ret:
             if code != 0:
@@ -85,3 +90,6 @@ class LocalOperation(object):
             else:
                 puts("\n".join(out_strs))
                 return True
+
+if __name__ == "__main__":
+    LocalOperation.exec("dir", output=True)
