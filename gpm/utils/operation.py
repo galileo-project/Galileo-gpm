@@ -99,9 +99,9 @@ class LocalOperation(object):
 
     @staticmethod
     def string_clean(string):
-        ret = string.replace("\n", "")
-        ret = string.replace("\t", "")
-        return ret
+        string = string.replace("\n", "")
+        string = string.replace("\t", "")
+        return string
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
