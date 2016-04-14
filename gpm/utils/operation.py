@@ -40,7 +40,9 @@ class LocalOperation(object):
 
     @classmethod
     def cat(cls, path, *args, **kwargs):
+        Log.debug(path)
         path = LocalOperation.rel2abs(path)
+        Log.debug(path)
         with open(path, "r") as stream:
             lines = [str_decode(line) for line in stream.readlines()]
 
