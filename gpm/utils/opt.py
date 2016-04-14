@@ -1,0 +1,37 @@
+import getopt
+from gpm.utils.log import Log
+from gpm.settings.status import Status
+
+def get_opt_name(opt):
+    if "--" in opt:
+        return opt[2:], True
+    elif "-" in opt:
+        return opt[1:], False
+    else:
+        return None, False
+
+def opt_parser(args, obj):
+    optlist, args = getopt.getopt(args, obj._OPTS["shortcut"], obj._OPTS["fullname"])
+    _dict = {}
+    func = None
+
+    for opt in optlist:
+        opt_name, opt_type = get_opt_name(opt[0])
+        if opt_name and opt_type is True:
+            if opt_name in obj._OPTS["fullname"]:
+                index = obj._OPTS["fullname"].index(opt_name)
+            else:
+                index = -1
+        elif opt_name and opt_type is False:
+            index = obj._OPTS["shortcut"].find(opt_name)
+        else:
+            index = -1
+
+        if index == -1:
+            Log.fatal(Status["STAT_OPT_INVALID"])
+
+        func = obj.__getattribute__(obj._OPTS["action"][index])
+        if func is None:
+            _dict[obj._OPTS["fullname"]] = opt[1]
+
+    return func, _dict

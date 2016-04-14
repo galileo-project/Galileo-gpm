@@ -1,0 +1,19 @@
+language:    c
+author:      tor4z
+version:     1.0
+email:       xx@xx.com
+description: some description
+name:        gpm-demo
+git_url:     git@github.com:tor4z
+
+build:
+  - make
+
+install:
+  - make install
+
+test:
+  - make test
+
+dep:
+  - git@github.com:tor4z/Galileo-matrix.git:1.0
