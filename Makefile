@@ -34,4 +34,4 @@ uninstall:
 
 .PHONY: clean
 clean:
-	-rm -f ./$(TEST_TARGET) ./$(PROJECT_TEST)
+	-rm -f ./$(TEST_TARGET) ./$(PROJECT_TEST) build dist gpm.egg-info
