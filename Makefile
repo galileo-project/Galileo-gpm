@@ -7,7 +7,7 @@ TEST_FILE    = $(wildcard ./test/*.py)
 TEST_TARGET  = test.out
 PROJECT_TEST = gpm.test
 SCRIPTS      = $(wildcard ./gpm/script/*)
-CONF_DIR     = /etc/gpm
+CONF_DIR     = ~/.gpm
 
 install: $(PROJECT_FILE) uninstall
 	pip install -r requirements.txt
