@@ -1,4 +1,4 @@
-from gpm import version
+from gpm import __version__ as version
 from gpm.utils.console import puts
 from gpm.cli import CLI
 
