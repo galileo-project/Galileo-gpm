@@ -83,12 +83,12 @@ class LocalOperation(object):
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
-        code     = process.poll()
-        out_strs = process.stdout.readlines()
-        err_strs = process.stderr.readlines()
-
+        code = process.poll()
         if not isinstance(code, int):
             Log.fatal(Status["STAT_EXEC_ERROR"])
+
+        out_strs = process.stdout.readlines()
+        err_strs = process.stderr.readlines()
 
         if ret:
             if code != 0:
