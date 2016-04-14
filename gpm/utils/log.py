@@ -10,7 +10,7 @@ class Log(object):
 
     @classmethod
     def fatal(cls, msg):
-        msg =red("FATAL: %s" % msg)
+        msg =red("FATAL: %s\n" % msg)
         sys.stderr.write(msg)
         e = SystemExit(1)
         e.message = msg

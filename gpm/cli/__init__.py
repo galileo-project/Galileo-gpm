@@ -44,4 +44,4 @@ def run(args):
     except KeyboardInterrupt:
         Log.puts(Status["STAT_EXIT"])
     except:
-        Log.fatal(Status["STAT_UNKNOWN_ERROR"])
+        pass
