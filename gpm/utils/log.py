@@ -1,6 +1,7 @@
+import sys
 from gpm.utils.console import puts
 from gpm.utils.color import yellow, red, magenta, green
-import sys
+from gpm import __debug as debug
 
 class Log(object):
     @classmethod
@@ -17,7 +18,8 @@ class Log(object):
 
     @classmethod
     def debug(cls, msg):
-        puts(magenta("DEBUG: %s" % msg))
+        if debug:
+            puts(magenta("DEBUG: %s" % msg))
 
     @classmethod
     def success(cls, msg):
