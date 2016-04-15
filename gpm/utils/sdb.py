@@ -25,7 +25,7 @@ class StaticDB(object):
         return self.__data.get(item)
 
     def __setitem__(self, key, value):
-        self._data[key] = value
+        self.__data[key] = value
 
     def __delitem__(self, key):
         del self.__data[key]
@@ -51,14 +51,14 @@ class StaticDB(object):
 
     def __save(self, data = None):
         with open(self.__path, "wb") as stream:
-            pickle.dump(data or self._data, stream)
-        self._data = data
+            pickle.dump(data or self.__data, stream)
+        self.__data = data
 
     def __load(self):
         if self.__file_exist:
             with open(self.__path, "rb") as stream:
                 data = pickle.load(stream)
-            self._data =  data or {}
+            self.__data =  data or {}
 
     @property
     def __file_exist(self):
