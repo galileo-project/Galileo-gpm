@@ -13,10 +13,10 @@ class CLI(object):
         self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
     def _run(self, args):
-        func, kwargs = opt_parser(args, self)
+        func, kwargs, args = opt_parser(args, self)
         if func is None:
             func = self._default
-        func(**kwargs)
+        func(*args, **kwargs)
 
 def _mods():
     mods = {}

@@ -5,7 +5,7 @@ from gpm.utils.log import Log
 from gpm.const.status import Status
 
 class CLIInstall(CLI):
-    _OPTS     = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_install"}
+    _OPTS     = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_install"}
     __doc__ = """
 
     """

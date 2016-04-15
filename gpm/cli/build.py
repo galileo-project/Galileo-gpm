@@ -5,7 +5,7 @@ from gpm.utils.log import Log
 from gpm.const.status import Status
 
 class CLIBuild(CLI):
-    _OPTS     = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_build"}
+    _OPTS     = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_build"}
     __doc__ = """
 
     """

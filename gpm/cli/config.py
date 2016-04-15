@@ -3,7 +3,7 @@ from gpm.cli import CLI
 from gpm.utils.operation import LocalOperation
 
 class CLIConfig(CLI):
-    _OPTS    = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_help"}
+    _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_help"}
     __doc__ = """
 
     """

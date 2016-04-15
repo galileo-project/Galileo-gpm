@@ -34,4 +34,4 @@ def opt_parser(args, obj):
         if func is None:
             _dict[obj._OPTS["fullname"]] = opt[1]
 
-    return func, _dict
+    return func, _dict, args
