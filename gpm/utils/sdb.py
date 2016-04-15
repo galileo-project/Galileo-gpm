@@ -59,4 +59,7 @@ class StaticDB(object):
 
     @property
     def __file_exist(self):
+        db_dir = os.path.dirname(self.__path)
+        if not LocalOperation.exist(db_dir):
+            LocalOperation.mkdir(db_dir)
         return LocalOperation.exist(self.__path)
