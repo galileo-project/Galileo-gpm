@@ -18,8 +18,8 @@ def opt_parser(args, obj):
     for opt in optlist:
         opt_name, opt_type = get_opt_name(opt[0])
         if opt_name and opt_type is True:
-            if opt_name in obj._OPTS["fullname"]:
-                index = obj._OPTS["fullname"].index(opt_name)
+            if opt_name in obj._OPTS["name"]:
+                index = obj._OPTS["name"].index(opt_name)
             else:
                 index = -1
         elif opt_name and opt_type is False:
@@ -32,6 +32,6 @@ def opt_parser(args, obj):
 
         func = obj.__getattribute__(obj._OPTS["action"][index])
         if func is None:
-            _dict[obj._OPTS["fullname"]] = opt[1]
+            _dict[obj._OPTS["name"]] = opt[1]
 
     return func, _dict, args
