@@ -73,7 +73,7 @@ class GPMConf(_Conf):
 
     @property
     def git_url(self):
-        git = self.content.get("git", "")
+        git = self.content.get("git_url", "")
         if ".git" in git:
             git = "/".join(git.split("/")[:-1])
         return git
@@ -81,16 +81,16 @@ class GPMConf(_Conf):
     def create_conf(self):
         sysConf = SYSConf()
         if LocalOperation.exist(self.path):
-            Log.warn(Status["STAT_GPM_CONF_EXIST"])
-            return
+            self.read()
+
                       #key          empty   prompt                                    default
-        sections = [("language",    False, "project language",                        None),
-                    ("author",      False, "author name",                             sysConf.author),
-                    ("version",     False, "initial version",                         None),
-                    ("email",       False, "author email",                            sysConf.email),
-                    ("description", False, "project description",                     None),
-                    ("name",        True,  "project name",                            None),
-                    ("git_url",     False, "author git url[git@github.com:yourname]", sysConf.git_url)]
+        sections = [("language",    False, "project language",                        self.language or None),
+                    ("author",      False, "author name",                             self.author or sysConf.author),
+                    ("version",     False, "initial version",                         self.version or None),
+                    ("email",       False, "author email",                            self.email or sysConf.email),
+                    ("description", False, "project description",                     self.description or None),
+                    ("name",        True,  "project name",                            self.name or None),
+                    ("git_url",     False, "author git url[git@github.com:yourname]", self.git_url or sysConf.git_url)]
 
         for section in sections:
             while(1):
@@ -109,7 +109,7 @@ class GPMConf(_Conf):
 #####################################
 
 class SYSConf(_Conf):
-    def __init__(self, path):
+    def __init__(self, path = None):
         path = LocalOperation.rel2abs(path or SYS_CONF)
         _Conf.__init__(self, path)
 
@@ -127,12 +127,12 @@ class SYSConf(_Conf):
 
     def generate(self):
         if LocalOperation.exist(self.path):
-            Log.warn(Status["STAT_SYS_CONF_EXIST"])
-            return
+            self.read()
+
                       #key          empty   prompt                                    default
-        sections = [("author",  False, "user name",                             LocalOperation.user),
-                    ("email",   False, "user email",                            None),
-                    ("git_url", False, "user git url[git@github.com:yourname]", None)]
+        sections = [("author",  False, "user name",                             self.author or LocalOperation.user),
+                    ("email",   False, "user email",                            self.email),
+                    ("git_url", False, "user git url[git@github.com:yourname]", self.git_url)]
 
         for section in sections:
             while(1):
