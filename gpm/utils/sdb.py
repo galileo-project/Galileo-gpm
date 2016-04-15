@@ -33,6 +33,9 @@ class StaticDB(object):
     def __del__(self):
         self.__save()
 
+    def __len__(self):
+        return len(self.__data)
+
     def update(self, data):
         self.add(data)
 
