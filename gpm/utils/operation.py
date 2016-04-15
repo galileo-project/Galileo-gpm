@@ -35,8 +35,14 @@ class LocalOperation(object):
         return cls.__exec("chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
-    def run(cls, *args, **kwargs):
-        return cls.__exec(*args, **kwargs)
+    def run(cls, cmd, path = None, *args, **kwargs):
+        if path:
+            abs_path = cls.rel2abs(path)
+            if cls.exist(abs_path):
+                cmd = "cd %s && %s" % (abs_path, cmd)
+            else:
+                return False
+        return cls.__exec(cmd, *args, **kwargs)
 
     @classmethod
     def cat(cls, paths):
@@ -89,8 +95,8 @@ class LocalOperation(object):
         return os.path.abspath(path or os.curdir)
 
     @classmethod
-    def add_file(cls, name, content = ""):
-        with open(name, "w+") as stream:
+    def add_file(cls, path, content = ""):
+        with open(path, "w+") as stream:
             stream.write(content)
 
     @property
