@@ -36,6 +36,9 @@ class StaticDB(object):
     def __len__(self):
         return len(self.__data)
 
+    def get(self, key):
+        return self.__getitem__(key)
+
     def update(self, data):
         self.add(data)
 
