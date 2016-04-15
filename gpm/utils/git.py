@@ -67,8 +67,8 @@ class GitClient(LocalOperation):
     def commit(self, msg):
         return self.repo.index.commit(msg)
 
-    def clone(self):
-        self.repo.clone(self.github_url)
+    def clone(self, url = None):
+        self.repo.clone(url or self.github_url)
 
     def pull(self):
         self.origin.pull()
@@ -102,6 +102,7 @@ class GitClient(LocalOperation):
             section = section if section[-1] != "/" else section[:-1]
             url += section + "/"
         return url
+
 
 ##################################
 #                                #
