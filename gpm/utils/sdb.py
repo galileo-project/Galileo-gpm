@@ -39,6 +39,20 @@ class StaticDB(object):
     def get(self, key):
         return self.__getitem__(key)
 
+    def all(self):
+        ret = []
+        for k, v in self.__data.items():
+            ret.append({k:v})
+        return ret
+
+    def gets(self, keys):
+        ret = []
+        for key in keys:
+            res = self.get(key)
+            if res: ret.append(res)
+
+        return ret
+
     def update(self, data):
         self.add(data)
 

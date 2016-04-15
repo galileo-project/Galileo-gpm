@@ -1,23 +1,24 @@
 from gpm.utils.console import puts
-from gpm.utils.operation import LocalOperation
+from gpm.utils.console import confirm
 from gpm.cli import CLI
 from gpm.utils.log import Log
 from gpm.const.status import Status
+from gpm.model.package import Packages
 
 class CLIInstall(CLI):
-    _OPTS     = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_install"}
+    _OPTS     = {"shortcut": "hy", "name": ["help", "confirm"], "action": ["_help", None], "default": "_install"}
     __doc__ = """
 
     """
 
     def _install(self, *args, **kwargs):
-        cmds = self.config.install
-        for cmd in cmds:
-            ret = LocalOperation.run(cmd)
-            if not ret:
-                Log.fatal(Status["STAT_INSTALL_ERROR"] % cmd)
-
-        Log.success(Status["STAT_INSTALL_SUCCESS"])
+        if not kwargs.get("confirm"):
+            confirm("Is install %s ?" % self.config.name)
+        ret = Packages().install(self.config)
+        if not ret:
+            Log.fatal(Status["STAT_INSTALL_ERROR"] % self.config.name)
+        else:
+            Log.success(Status["STAT_INSTALL_SUCCESS"] % self.config.name)
 
     def _help(self, *args, **kwargs):
         puts(self.__doc__)

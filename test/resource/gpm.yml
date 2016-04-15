@@ -15,5 +15,8 @@ install:
 test:
   - make test
 
+remvoe:
+  - make uninstall
+
 dep:
   - git@github.com:tor4z/Galileo-matrix.git:1.0

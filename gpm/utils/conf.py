@@ -60,6 +60,10 @@ class GPMConf(_Conf):
         return self.content.get("install", [])
 
     @property
+    def remove(self):
+        return self.content.get("remove", [])
+
+    @property
     def test(self):
         return self.content.get("test", [])
 

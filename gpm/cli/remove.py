@@ -1,6 +1,7 @@
-from gpm.utils.console import puts
 from gpm.cli import CLI
-from gpm.utils.operation import LocalOperation
+from gpm.model.package import Packages
+from gpm.utils.console import puts
+
 
 class CLIRemove(CLI):
     _OPTS    = {"shortcut": "hy", "name": ["help", "confirm"], "action": ["_help", None], "default": "_remove"}
@@ -9,7 +10,10 @@ class CLIRemove(CLI):
     """
 
     def _remove(self, *args, **kwargs):
-        pass
+        pa = Packages()
+        pa.find(args)
+        ret = pa.remove()
+
 
     def _help(self, *args, **kwargs):
         puts(self.__doc__)

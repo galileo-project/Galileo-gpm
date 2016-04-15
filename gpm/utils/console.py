@@ -12,3 +12,12 @@ def gets(prompt, default = None):
     if not val == "":
         return default
     return val
+
+def confirm(msg, default = False):
+    msg = "%s[y/n]" % msg
+    default = "y" if default else "n"
+    res = gets(msg, default)
+    if res and res[0].isalpha() and res[0].upper() == "Y":
+        return True
+    else:
+        return False
