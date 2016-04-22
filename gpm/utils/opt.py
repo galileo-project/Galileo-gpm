@@ -11,7 +11,7 @@ def get_opt_name(opt):
         return None, False
 
 def opt_parser(args, obj):
-    optlist, args = getopt.getopt(args, obj._OPTS["shortcut"], obj._OPTS["fullname"])
+    optlist, args = getopt.getopt(args, obj._OPTS["shortcut"], obj._OPTS["name"])
     _dict = {}
     func = None
 
