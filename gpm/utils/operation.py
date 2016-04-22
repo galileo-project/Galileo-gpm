@@ -54,12 +54,8 @@ class LocalOperation(object):
     @classmethod
     def run(cls, cmd, path = None, *args, **kwargs):
         if path:
-            abs_path = cls.rel2abs(path)
-            if cls.exist(abs_path):
-                cmd = "cd %s && %s" % (abs_path, cmd)
-            else:
-                return False
-        return cls.__exec(cmd, *args, **kwargs)
+            path = cls.rel2abs(path)
+        return cls.__exec(cmd, cwd = path, *args, **kwargs)
 
     @classmethod
     def cat(cls, paths):
@@ -136,10 +132,10 @@ class LocalOperation(object):
         return os.getenv("USER")
 
     @classmethod
-    def __exec(cls, cmd, *args, **kwargs):
+    def __exec(cls, cmd, cwd = None, *args, **kwargs):
         cmd_args = shlex.split(cmd)
         Log.debug(cmd)
-        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
+        p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
     @staticmethod
