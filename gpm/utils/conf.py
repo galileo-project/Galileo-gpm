@@ -19,7 +19,7 @@ class _Conf(object):
     def write(self, path, data):
         LocalOperation.mkdir(os.path.dirname(path))
         with open(path, "w+") as stream:
-            yaml.dump(data, stream)
+            yaml.dump(data, stream, allow_unicode=True, default_flow_style=False)
 
 #####################################
 #                                   #
