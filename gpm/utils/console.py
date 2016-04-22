@@ -1,13 +1,19 @@
 def puts(msg):
     print(msg)
 
+def __gets(msg):
+    try:
+        return raw_input(msg)
+    except:
+        return input(msg)
+
 def gets(prompt, default = None):
     if default:
         prompt = "%s(%s):" %(prompt, default)
     else:
         prompt = "%s:" % prompt
 
-    val = input(prompt)
+    val = __gets(prompt)
 
     if not val == "":
         return default
