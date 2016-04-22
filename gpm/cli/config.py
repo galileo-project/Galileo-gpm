@@ -1,9 +1,10 @@
 from gpm.utils.console import puts
 from gpm.cli import CLI
 from gpm.utils.operation import LocalOperation
+from gpm.utils.conf import SYSConf
 
 class CLIConfig(CLI):
-    _OPTS    = {"shortcut": "h", "fullname": ["help"], "action": ["_help"], "default": "_help"}
+    _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_config"}
     __doc__ = """
 
     """
@@ -11,5 +12,8 @@ class CLIConfig(CLI):
     def _help(self, *args, **kwargs):
         puts(self.__doc__)
 
+    def _config(self):
+        conf = SYSConf()
+        conf.generate()
 
 _MOD = CLIConfig

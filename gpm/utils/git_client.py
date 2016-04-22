@@ -1,15 +1,15 @@
 import os
 from gitdb import GitDB
-from git import Repo
+from git import Repo, Git
 from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
-from gpm.settings.status import Status
+from gpm.const.status import Status
 
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
 
-    def __init__(self, config):
+    def __init__(self, config = None):
         self._repo        = None
         self._origin      = None
         self._github      = None
@@ -49,8 +49,9 @@ class GitClient(LocalOperation):
             self._origin = self.repo.remotes[0]
         return self._origin
 
-    def init(self, name, path = None):
-        path = path or self.rel2abs()
+    def init(self, name = None, path = None):
+        name  = name or self._config.name
+        path  = path or self.rel2abs()
         repo_path = os.path.join(path, name)
         repo = Repo.init(repo_path, odbt=GitDB)
         self._repo = repo
@@ -67,8 +68,8 @@ class GitClient(LocalOperation):
     def commit(self, msg):
         return self.repo.index.commit(msg)
 
-    def clone(self):
-        self.repo.clone(self.github_url)
+    def clone(self, url = None, to_path = None):
+        Git(to_path).clone(url or self.github_url)
 
     def pull(self):
         self.origin.pull()
@@ -102,6 +103,7 @@ class GitClient(LocalOperation):
             section = section if section[-1] != "/" else section[:-1]
             url += section + "/"
         return url
+
 
 ##################################
 #                                #

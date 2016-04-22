@@ -11,15 +11,19 @@
 
 ## Build
 
-Install:
-
-    make install
-    
-Test:
-    
+    #Install:
+    make install    
+    #Test:
     make test
-    
-Uninstall:
-    
+    #Uninstall:
     make uninstall
+    
+## RoadMap
+
+    init
+    config
+    install
+    dep
+    remove
+    test
     

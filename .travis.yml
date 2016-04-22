@@ -8,3 +8,6 @@ python:
 script:
     - export PYTHONPATH=$(pwd)
     - sudo make test
+
+notifications:
+  email: false

@@ -1,8 +1,9 @@
 from gpm.utils.opt import opt_parser
 from gpm.utils.log import Log
 from gpm.utils.conf import GPMConf
-from gpm.settings import DEFAULT_MOD
-from gpm.settings.status import Status
+from gpm.const import DEFAULT_MOD, GPM_SRC
+from gpm.const.status import Status
+from gpm.utils.operation import LocalOperation
 import pkgutil
 
 class CLI(object):
@@ -13,10 +14,10 @@ class CLI(object):
         self.__getattribute__(self._OPTS["default"])(*args, **kwargs)
 
     def _run(self, args):
-        func, kwargs = opt_parser(args, self)
+        func, kwargs, args = opt_parser(args, self)
         if func is None:
             func = self._default
-        func(**kwargs)
+        func(*args, **kwargs)
 
 def _mods():
     mods = {}
@@ -36,12 +37,19 @@ def _sub_cmd(args):
     else:
         return args[0], args[1:]
 
+def _init():
+    if not LocalOperation.exist(GPM_SRC):
+        LocalOperation.mkdir(GPM_SRC)
+
 def run(args):
+    _init()
     mods = _mods()
     sub_cmd, sub_arg = _sub_cmd(args)
     try:
         mods[sub_cmd]()._run(sub_arg)
     except KeyboardInterrupt:
         Log.puts(Status["STAT_EXIT"])
-    except Exception as e:
-        Log.fatal(str(e))
+    except KeyError:
+        Log.fatal(Status["STAT_NOT_CMD"])
+    # except Exception as e:
+    #     Log.fatal(str(e))

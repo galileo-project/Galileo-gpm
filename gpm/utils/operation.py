@@ -4,7 +4,7 @@ import re
 import os
 from gpm.utils.console import puts
 from gpm.utils.log import Log
-from gpm.settings.status import Status
+from gpm.const.status import Status
 from gpm.utils.string import decode as str_decode
 
 class LocalOperation(object):
@@ -30,42 +30,73 @@ class LocalOperation(object):
             return True
 
     @classmethod
+    def ls(cls, path, long = False, hidden = False):
+        cmd = "ls %s" % path
+        if long:
+            cmd = "%s %s" % (cmd, "-l")
+        if hidden:
+            cmd = "%s %s" % (cmd, "-a")
+
+        return cls.__exec(cmd, ret = True)
+
+    @classmethod
+    def cp(cls, origin, target):
+        if not isinstance(origin, list):
+            origin = [origin]
+        ret = cls.__exec("cp -rf %s %s" % (" ".join(origin), target), ret = True)
+        return not ret is False
+
+    @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         return cls.__exec("chmod %d %s" % (mod, path), *args, **kwargs)
 
     @classmethod
-    def run(cls, *args, **kwargs):
-        return cls.__exec(*args, **kwargs)
+    def run(cls, cmd, path = None, *args, **kwargs):
+        if path:
+            path = cls.rel2abs(path)
+        return cls.__exec(cmd, cwd = path, *args, **kwargs)
 
     @classmethod
-    def cat(cls, path, *args, **kwargs):
-        path = LocalOperation.rel2abs(path)
-        full_path = cls.find(path, ret = True)
-        Log.debug("Cat %s" % full_path)
-        with open(full_path, "r") as stream:
+    def cat(cls, paths):
+        if not isinstance(paths, list):
+            paths = [paths]
+
+        ret = cls.__exec("cat %s" % " ".join(paths), ret = True)
+        if ret:
+            return "\n".join(ret)
+        else:
+            return None
+
+    @classmethod
+    def pwd(cls):
+        ret = cls.__exec("pwd", ret = True)
+        path = cls.string_clean(ret[0])
+        return cls.rel2abs(path)
+
+    @classmethod
+    def read(cls, path, *args, **kwargs):
+        path = cls.string_clean(path)
+        with open(path, "r") as stream:
             lines = [str_decode(line) for line in stream.readlines()]
 
         return "\n".join(lines)
 
     @classmethod
-    def find(cls, path, *args, **kwargs):
+    def find(cls, path, name = None, *args, **kwargs):
         target_path = os.path.dirname(path)
-        target_name = os.path.basename(path)
+        target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
+        rets = [cls.string_clean(i) for i in ret]
 
-        if ret:
-            return cls.string_clean(ret[0])
-        else:
-            return None
+        return rets
 
     @classmethod
     def distr(cls):
-        ret = cls.cat("/etc/*-release", ret=True)
-        if ret:
-            return ret.split("\n")[0]
-        else:
-            return ""
+        paths = cls.find("/etc/*-release")
+        ret = cls.cat(paths)
+        re_distri = re.compile(r'PRETTY_NAME=\"(.*?)\"')
+        return re_distri.findall(ret)[0]
 
     @classmethod
     def append(cls, path, contents, *args, **kwargs):
@@ -80,22 +111,31 @@ class LocalOperation(object):
 
     @classmethod
     def rel2abs(cls, path = None):
+        if path:
+            if cls.get_user() == "root":
+                path = path.replace("~", "/root")
+            else:
+                path = path.replace("~", "/home/%s" % cls.get_user())
         return os.path.abspath(path or os.curdir)
 
     @classmethod
-    def add_file(cls, name, content = ""):
-        with open(name, "w+") as stream:
+    def add_file(cls, path, content = ""):
+        with open(path, "w+") as stream:
             stream.write(content)
 
     @property
     def user(self):
+        return self.get_user()
+
+    @staticmethod
+    def get_user():
         return os.getenv("USER")
 
     @classmethod
-    def __exec(cls, cmd, *args, **kwargs):
+    def __exec(cls, cmd, cwd = None, *args, **kwargs):
         cmd_args = shlex.split(cmd)
-        Log.debug(cmd_args)
-        p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
+        Log.debug(cmd)
+        p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
     @staticmethod
@@ -110,21 +150,17 @@ class LocalOperation(object):
         process.wait()
         code = process.poll()
 
-        Log.debug("Exit code %s" % str(code))
         if not isinstance(code, int):
             Log.fatal(Status["STAT_EXEC_ERROR"])
 
         out_strs = [str_decode(line) for line in process.stdout.readlines()]
         err_strs = [str_decode(line) for line in process.stderr.readlines()]
 
-        Log.debug(out_strs)
-        Log.debug(err_strs)
-
         if ret:
             if code != 0:
                 res = False
             else:
-                res = out_strs
+                res = out_strs or True
 
         if output:
             if code != 0:
@@ -135,7 +171,3 @@ class LocalOperation(object):
                 res = res or True
 
         return res
-
-if __name__ == "__main__":
-    res = LocalOperation.cat("log.py")
-    print(res)

@@ -28,3 +28,7 @@ class Log(object):
     @classmethod
     def puts(cls, msg):
         puts("%s" % msg)
+
+    @classmethod
+    def info(cls, msg):
+        puts("INFO: %s" % msg)
