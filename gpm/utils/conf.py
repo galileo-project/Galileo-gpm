@@ -147,9 +147,7 @@ class SYSConf(_Conf):
             self.read()
 
                       #key          empty   prompt                                    default
-        print(self.author)
-        print(LocalOperation.user)
-        sections = [("author",  False, "user name",                             self.author or LocalOperation.user),
+        sections = [("author",  False, "user name",                             self.author or LocalOperation.get_user()),
                     ("email",   False, "user email",                            self.email),
                     ("git_url", False, "user git url[git@github.com:yourname]", self.git_url)]
 

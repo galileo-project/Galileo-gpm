@@ -128,6 +128,10 @@ class LocalOperation(object):
 
     @property
     def user(self):
+        return self.get_user()
+
+    @staticmethod
+    def get_user():
         return os.getenv("USER")
 
     @classmethod
