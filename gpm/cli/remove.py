@@ -11,8 +11,10 @@ class CLIRemove(CLI):
 
     def _remove(self, *args, **kwargs):
         po = PackageOpration()
-        target = args[0]        #TODO Upadte
-        conf = po.find(target)
+        if args:
+            conf = po.find(args[0])
+        else:
+            conf = self.config
         po.remove(conf)
 
     def _help(self, *args, **kwargs):
