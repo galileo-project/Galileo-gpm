@@ -30,8 +30,10 @@ def opt_parser(args, obj):
         if index == -1:
             Log.fatal(Status["STAT_OPT_INVALID"])
 
-        func = obj.__getattribute__(obj._OPTS["action"][index])
-        if func is None:
+        func_name = obj._OPTS["action"][index]
+        if func_name is None:
             _dict[obj._OPTS["name"]] = opt[1] or True
+        else:
+            func = obj.__getattribute__(func_name)
 
     return func, _dict, args
