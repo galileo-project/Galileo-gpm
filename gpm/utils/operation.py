@@ -115,6 +115,10 @@ class LocalOperation(object):
 
     @classmethod
     def rel2abs(cls, path = None):
+        if cls.user == "root":
+            path = path.replace("~", "/root")
+        else:
+            path = path.replace("~", "/home/%s" % cls.user)
         return os.path.abspath(path or os.curdir)
 
     @classmethod
