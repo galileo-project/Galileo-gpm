@@ -1,6 +1,6 @@
 import os
 from gitdb import GitDB
-from git import Repo
+from git import Repo, Git
 from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
@@ -69,7 +69,7 @@ class GitClient(LocalOperation):
         return self.repo.index.commit(msg)
 
     def clone(self, url = None, to_path = None):
-        self.repo.clone_from(url or self.github_url, to_path = to_path)
+        Git(to_path).clone(url or self.github_url)
 
     def pull(self):
         self.origin.pull()
