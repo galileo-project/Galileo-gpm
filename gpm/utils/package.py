@@ -33,6 +33,8 @@ class PackageOpration(object):
         cmds = self.__config.install
         for cmd in cmds:
             ret = LocalOperation.run(cmd, path = self.__path)
+            if not ret:
+                break
 
         if ret and not self.__save_src():
             ret = False
@@ -48,8 +50,10 @@ class PackageOpration(object):
         cmds = self.__config.remove
         for cmd in cmds:
             ret = LocalOperation.run(cmd, path = self.__path)
+            if not ret:
+                break
 
-        if not self.__remove_src():
+        if ret and not self.__remove_src():
             ret = False
 
         return ret
@@ -85,6 +89,8 @@ class PackageOpration(object):
         cmds = self.__config.test
         for cmd in cmds:
             ret = LocalOperation.run(cmd, path = self.__path)
+            if not ret:
+                break
 
         return ret
 
