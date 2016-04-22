@@ -4,7 +4,7 @@ def puts(msg):
 def __gets(msg):
     try:
         return raw_input(msg)
-    except:
+    except NameError:
         return input(msg)
 
 def gets(prompt, default = None):
@@ -15,7 +15,7 @@ def gets(prompt, default = None):
 
     val = __gets(prompt)
 
-    if not val == "":
+    if not val:
         return default
     return val
 

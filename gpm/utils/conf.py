@@ -5,6 +5,7 @@ from gpm.utils.log import Log
 from gpm.utils.operation import LocalOperation
 from gpm.const import GPM_YML, SYS_CONF
 from gpm.const.status import Status
+from gpm.utils import VerifyName
 
 class _Conf(object):
     def __init__(self, path):
@@ -105,7 +106,9 @@ class GPMConf(_Conf):
         for section in sections:
             while(1):
                 self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not self._content[section[0]] and section[1]:
+                if not VerifyName(self._content[section[0]]):
+                    Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
+                elif section[1] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                 else:
                     break
@@ -149,7 +152,9 @@ class SYSConf(_Conf):
         for section in sections:
             while(1):
                 self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not self._content[section[0]] and section[1]:
+                if not VerifyName(self._content[section[0]]):
+                    Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
+                elif section[1] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                 else:
                     break

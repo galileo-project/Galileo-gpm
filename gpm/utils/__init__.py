@@ -1,4 +1,5 @@
 import os.path
+import re
 
 def GitURL2Dir(url):
     if not url:
@@ -15,3 +16,8 @@ def GitURL2Dir(url):
 def Path2Dir(path):
     path = os.path.abspath(path)
     return path.split("/")[-1]
+
+
+_RE_NAME = re.compile(r"[_\w\d]+")
+def VerifyName(name):
+    return not _RE_NAME.match(name) is None
