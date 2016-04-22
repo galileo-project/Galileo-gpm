@@ -11,10 +11,12 @@ class _Conf(object):
     def __init__(self, path):
         self._path = path
         self._content = {}
+        self.read()
 
     def read(self):
-        with open(self._path, "r") as stream:
-            self._content = yaml.load(stream)
+        if LocalOperation.exist(self._path):
+            with open(self._path, "r") as stream:
+                self._content = yaml.load(stream)
 
     def write(self, path, data):
         LocalOperation.mkdir(os.path.dirname(path))
@@ -94,14 +96,14 @@ class GPMConf(_Conf):
         if self.path and LocalOperation.exist(self.path):
             Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
-                      #key          empty   prompt                                    default
-        sections = [("name",        "project name",                            self.name or None,               VerifyName),
-                    ("language",    "project language",                        self.language or None,           VerifyName),
-                    ("author",      "author name",                             self.author or sysConf.author,   None),
-                    ("version",     "initial version",                         self.version or None,            None),
-                    ("email",       "author email",                            self.email or sysConf.email,     VerifyEmail),
-                    ("description", "project description",                     self.description or None,        None),
-                    ("git_url",     "author git url[git@github.com:yourname]", self.git_url or sysConf.git_url, None)]
+                      #key            prompt                         default                          verify
+        sections = [("name",        "project name",                 self.name or None,               VerifyName),
+                    ("language",    "project language",             self.language or None,           VerifyName),
+                    ("author",      "author name",                  self.author or sysConf.author,   None),
+                    ("version",     "initial version",              self.version or None,            None),
+                    ("email",       "author email",                 self.email or sysConf.email,     VerifyEmail),
+                    ("description", "project description",          self.description or None,        None),
+                    ("git_url",     "git url[git@github.com:name]", self.git_url or sysConf.git_url, None)]
 
         for section in sections:
             while(1):
@@ -143,13 +145,10 @@ class SYSConf(_Conf):
         return self._content.get("git_url", "")
 
     def generate(self):
-        if LocalOperation.exist(self._path):
-            self.read()
-
-                      #key         prompt                                    default                              verify
-        sections = [("author",  "user name",                         self.author or LocalOperation.get_user(), VerifyName),
-                    ("email",   "user email",                        self.email,                               VerifyEmail),
-                    ("git_url", "user git url[git@github.com:name]", self.git_url,                             VerifyGit)]
+                      #key         prompt                                    default                        verify
+        sections = [("author",  "user name",                    self.author or LocalOperation.get_user(), VerifyName),
+                    ("email",   "user email",                   self.email,                               VerifyEmail),
+                    ("git_url", "git url[git@github.com:name]", self.git_url,                             VerifyGit)]
 
         for section in sections:
             while(1):
