@@ -30,6 +30,13 @@ class LocalOperation(object):
             return True
 
     @classmethod
+    def cp(cls, origin, target):
+        if not isinstance(origin, list):
+            origin = [origin]
+        ret = cls.__exec("cp -r %s %s", " ".join(origin), target, ret = True)
+        return not ret is False
+
+    @classmethod
     def chmod(cls, mod, path, *args, **kwargs):
         path = LocalOperation.rel2abs(path)
         return cls.__exec("chmod %d %s" % (mod, path), *args, **kwargs)
@@ -54,6 +61,11 @@ class LocalOperation(object):
             return "\n".join(ret)
         else:
             return None
+
+    @classmethod
+    def pwd(cls):
+        ret = cls.__exec("pwd", ret = True)
+        return cls.rel2abs(ret)
 
     @classmethod
     def read(cls, path, *args, **kwargs):
