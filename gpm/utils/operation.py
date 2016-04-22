@@ -128,7 +128,6 @@ class LocalOperation(object):
     @classmethod
     def __exec(cls, cmd, *args, **kwargs):
         cmd_args = shlex.split(cmd)
-        Log.debug(cmd_args)
         p = Popen(cmd_args, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
@@ -144,15 +143,11 @@ class LocalOperation(object):
         process.wait()
         code = process.poll()
 
-        Log.debug("Exit code %s" % str(code))
         if not isinstance(code, int):
             Log.fatal(Status["STAT_EXEC_ERROR"])
 
         out_strs = [str_decode(line) for line in process.stdout.readlines()]
         err_strs = [str_decode(line) for line in process.stderr.readlines()]
-
-        Log.debug(out_strs)
-        Log.debug(err_strs)
 
         if ret:
             if code != 0:
