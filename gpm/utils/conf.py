@@ -106,10 +106,12 @@ class GPMConf(_Conf):
         for section in sections:
             while(1):
                 self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not section[1] or not VerifyName(self._content[section[0]]):
-                    Log.warn(Status["STAT_INPUT_INVALID"])
-                elif section[1] and not self._content[section[0]]:
+                if section[1] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
+                    continue
+                elif section[1] and not VerifyName(self._content[section[0]]):
+                    Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
+                    continue
                 else:
                     break
 
@@ -152,10 +154,12 @@ class SYSConf(_Conf):
         for section in sections:
             while(1):
                 self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not section[1] or not VerifyName(self._content[section[0]]):
-                    Log.warn(Status["STAT_INPUT_INVALID"])
-                elif section[1] and not self._content[section[0]]:
+                if section[1] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
+                    continue
+                elif section[1] and not VerifyName(self._content[section[0]]):
+                    Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
+                    continue
                 else:
                     break
 
