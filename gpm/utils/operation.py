@@ -30,6 +30,16 @@ class LocalOperation(object):
             return True
 
     @classmethod
+    def ls(cls, path, long = False, hidden = False):
+        cmd = "ls %s" % path
+        if long:
+            cmd = "%s %s" % (cmd, "-l")
+        if hidden:
+            cmd = "%s %s" % (cmd, "-a")
+
+        return cls.__exec(cmd, ret = True)
+
+    @classmethod
     def cp(cls, origin, target):
         if not isinstance(origin, list):
             origin = [origin]
@@ -76,9 +86,9 @@ class LocalOperation(object):
         return "\n".join(lines)
 
     @classmethod
-    def find(cls, path, *args, **kwargs):
+    def find(cls, path, name = None, *args, **kwargs):
         target_path = os.path.dirname(path)
-        target_name = os.path.basename(path)
+        target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
         rets = [cls.string_clean(i) for i in ret]
 
@@ -159,7 +169,3 @@ class LocalOperation(object):
                 res = res or True
 
         return res
-
-if __name__ == "__main__":
-    res = LocalOperation.cat("log.py")
-    print(res)

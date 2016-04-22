@@ -1,5 +1,5 @@
 from gpm.cli import CLI
-from gpm.model.package import Packages
+from gpm.utils.package import PackageOpration
 from gpm.utils.console import puts
 
 
@@ -10,10 +10,9 @@ class CLIRemove(CLI):
     """
 
     def _remove(self, *args, **kwargs):
-        pa = Packages()
-        pa.find(args)
-        ret = pa.remove()
-
+        po = PackageOpration()
+        conf = po.find(args[0])
+        po.remove(conf)
 
     def _help(self, *args, **kwargs):
         puts(self.__doc__)

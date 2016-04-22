@@ -28,6 +28,8 @@ class _Conf(object):
 
 class GPMConf(_Conf):
     def __init__(self, path = None):
+        if not GPM_YML in path:
+            path = os.path.join(path, GPM_YML)
         path = LocalOperation.rel2abs(path or GPM_YML)
         _Conf.__init__(self, path)
 
@@ -86,10 +88,10 @@ class GPMConf(_Conf):
             git = "/".join(git.split("/")[:-1])
         return git
 
-    def create_conf(self):
+    def generate(self):
         sysConf = SYSConf()
         if LocalOperation.exist(self.__path):
-            self.read()
+            Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
                       #key          empty   prompt                                    default
         sections = [("language",    False, "project language",                        self.language or None),
@@ -108,6 +110,8 @@ class GPMConf(_Conf):
                 else:
                     break
 
+        pkg_path    = os.path.join(LocalOperation.pwd(), self.name)
+        self.__path = os.path.join(pkg_path, GPM_YML)
         self.write(self.__path, self.__content)
 
 #####################################

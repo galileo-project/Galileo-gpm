@@ -9,7 +9,7 @@ from gpm.const.status import Status
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
 
-    def __init__(self, config):
+    def __init__(self, config = None):
         self._repo        = None
         self._origin      = None
         self._github      = None
@@ -49,8 +49,9 @@ class GitClient(LocalOperation):
             self._origin = self.repo.remotes[0]
         return self._origin
 
-    def init(self, name, path = None):
-        path = path or self.rel2abs()
+    def init(self, name = None, path = None):
+        name  = name or self._config.name
+        path  = path or self.rel2abs()
         repo_path = os.path.join(path, name)
         repo = Repo.init(repo_path, odbt=GitDB)
         self._repo = repo

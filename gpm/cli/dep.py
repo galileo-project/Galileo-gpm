@@ -1,6 +1,6 @@
 from gpm.utils.console import puts
 from gpm.cli import CLI
-from gpm.model.package import Packages
+from gpm.utils.package import PackageOpration
 
 class CLIDep(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_dep"}
@@ -9,10 +9,10 @@ class CLIDep(CLI):
     """
 
     def _dep(self, *args, **kwargs):
-        pass
+        po = PackageOpration(self.config)
+        po.dep()
 
     def _help(self, *args, **kwargs):
         puts(self.__doc__)
-
 
 _MOD = CLIDep

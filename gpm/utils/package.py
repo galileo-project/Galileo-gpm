@@ -3,7 +3,8 @@ from gpm.utils.git_client import GitClient
 from gpm.utils.conf import GPMConf
 from gpm.utils import GitURL2Dir
 from gpm.const import GPM_YML, GPM_SRC
-from gpm.const.status import Status
+from gpm.utils import Path2Dir
+from gpm.utils.console import puts
 import os
 
 class PackageOpration(object):
@@ -53,7 +54,7 @@ class PackageOpration(object):
 
         return ret
 
-    def dpe(self, config):
+    def dep(self, config = None):
         self.set(config)
         ret = False
         if not self.__config:
@@ -75,8 +76,35 @@ class PackageOpration(object):
                 return False
         return ret
 
-    def update(self):
-        pass
+    def test(self, config = None):
+        self.set(config)
+        ret = False
+        if not self.__config:
+            return False
 
-    def test(self):
-        pass
+        cmds = self.__config.test
+        for cmd in cmds:
+            ret = LocalOperation.run(cmd, path = self.__path)
+
+        return ret
+
+    @classmethod
+    def list(cls):
+        ret = LocalOperation.ls(GPM_SRC)
+        cls.__show_pkgs(ret)
+
+    @classmethod
+    def find(cls, name):
+        ret = LocalOperation.find(GPM_SRC, name)
+        cls.__show_pkgs(ret)
+
+        if ret:
+            conf_path = os.path.join(ret[0], GPM_YML)
+            return GPMConf(conf_path)
+        return None
+
+    @classmethod
+    def __show_pkgs(cls, pkgs):
+        if isinstance(pkgs, list):
+            pkgs = [pkgs]
+        puts("\n".join([Path2Dir(pkg) for pkg in pkgs]))
