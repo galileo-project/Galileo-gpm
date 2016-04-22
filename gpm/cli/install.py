@@ -13,7 +13,9 @@ class CLIInstall(CLI):
 
     def _install(self, *args, **kwargs):
         if not kwargs.get("confirm"):
-            confirm("Is install %s ?" % self.config.name)
+            if not confirm("Is install %s ?" % self.config.name):
+                return
+
         ret = PackageOpration().install(self.config)
         if not ret:
             Log.fatal(Status["STAT_INSTALL_ERROR"] % self.config.name)
