@@ -75,7 +75,7 @@ class LocalOperation(object):
     @classmethod
     def pwd(cls):
         ret = cls.__exec("pwd", ret = True)
-        return cls.rel2abs(ret)
+        return cls.rel2abs(ret[0])
 
     @classmethod
     def read(cls, path, *args, **kwargs):

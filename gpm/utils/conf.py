@@ -95,12 +95,12 @@ class GPMConf(_Conf):
             Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
                       #key          empty   prompt                                    default
-        sections = [("language",    False, "project language",                        self.language or None),
+        sections = [("name",        True,  "project name",                            self.name or None),
+                    ("language",    False, "project language",                        self.language or None),
                     ("author",      False, "author name",                             self.author or sysConf.author),
                     ("version",     False, "initial version",                         self.version or None),
                     ("email",       False, "author email",                            self.email or sysConf.email),
                     ("description", False, "project description",                     self.description or None),
-                    ("name",        True,  "project name",                            self.name or None),
                     ("git_url",     False, "author git url[git@github.com:yourname]", self.git_url or sysConf.git_url)]
 
         for section in sections:
