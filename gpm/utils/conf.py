@@ -100,7 +100,7 @@ class GPMConf(_Conf):
         sections = [("name",        "project name",                 self.name or None,               VerifyName),
                     ("language",    "project language",             self.language or None,           VerifyName),
                     ("author",      "author name",                  self.author or sysConf.author,   None),
-                    ("version",     "initial version",              self.version or None,            None),
+                    ("version",     "initial version",              self.version or 0.1,             None),
                     ("email",       "author email",                 self.email or sysConf.email,     VerifyEmail),
                     ("description", "project description",          self.description or None,        None),
                     ("git_url",     "git url[git@github.com:name]", self.git_url or sysConf.git_url, None)]
