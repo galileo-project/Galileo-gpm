@@ -90,7 +90,7 @@ class GPMConf(_Conf):
 
     def generate(self):
         sysConf = SYSConf()
-        if LocalOperation.exist(self.__path):
+        if self.__path and LocalOperation.exist(self.path):
             Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
                       #key          empty   prompt                                    default
