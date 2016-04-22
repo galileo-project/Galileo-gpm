@@ -28,7 +28,7 @@ class _Conf(object):
 
 class GPMConf(_Conf):
     def __init__(self, path = None):
-        if not GPM_YML in path:
+        if path and not GPM_YML in path:
             path = os.path.join(path, GPM_YML)
         path = LocalOperation.rel2abs(path or GPM_YML)
         _Conf.__init__(self, path)
