@@ -32,7 +32,7 @@ def opt_parser(args, obj):
 
         func_name = obj._OPTS["action"][index]
         if func_name is None:
-            _dict[obj._OPTS["name"]] = opt[1] or True
+            _dict[obj._OPTS["name"][index]] = opt[1] or True
         else:
             func = obj.__getattribute__(func_name)
 
