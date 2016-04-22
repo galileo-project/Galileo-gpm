@@ -163,7 +163,7 @@ class LocalOperation(object):
             if code != 0:
                 res = False
             else:
-                res = out_strs
+                res = out_strs or True
 
         if output:
             if code != 0:

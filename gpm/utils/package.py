@@ -34,7 +34,7 @@ class PackageOpration(object):
         for cmd in cmds:
             ret = LocalOperation.run(cmd, path = self.__path)
 
-        if not self.__save_src():
+        if ret and not self.__save_src():
             ret = False
 
         return ret
