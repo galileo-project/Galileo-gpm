@@ -5,7 +5,7 @@ from gpm.utils.log import Log
 from gpm.utils.operation import LocalOperation
 from gpm.const import GPM_YML, SYS_CONF
 from gpm.const.status import Status
-from gpm.utils import VerifyName
+from gpm.utils import VerifyName, VerifyEmail, VerifyGit
 
 class _Conf(object):
     def __init__(self, path):
@@ -95,21 +95,21 @@ class GPMConf(_Conf):
             Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
                       #key          empty   prompt                                    default
-        sections = [("name",        True,  "project name",                            self.name or None),
-                    ("language",    False, "project language",                        self.language or None),
-                    ("author",      False, "author name",                             self.author or sysConf.author),
-                    ("version",     False, "initial version",                         self.version or None),
-                    ("email",       False, "author email",                            self.email or sysConf.email),
-                    ("description", False, "project description",                     self.description or None),
-                    ("git_url",     False, "author git url[git@github.com:yourname]", self.git_url or sysConf.git_url)]
+        sections = [("name",        "project name",                            self.name or None,               VerifyName),
+                    ("language",    "project language",                        self.language or None,           VerifyName),
+                    ("author",      "author name",                             self.author or sysConf.author,   None),
+                    ("version",     "initial version",                         self.version or None,            None),
+                    ("email",       "author email",                            self.email or sysConf.email,     VerifyEmail),
+                    ("description", "project description",                     self.description or None,        None),
+                    ("git_url",     "author git url[git@github.com:yourname]", self.git_url or sysConf.git_url, None)]
 
         for section in sections:
             while(1):
-                self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if section[1] and not self._content[section[0]]:
+                self._content[section[0]] = gets("Input %s" % section[1], section[2])
+                if section[3] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                     continue
-                elif section[1] and not VerifyName(self._content[section[0]]):
+                elif section[3] and not VerifyName(self._content[section[0]]):
                     Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
                     continue
                 else:
@@ -146,18 +146,18 @@ class SYSConf(_Conf):
         if LocalOperation.exist(self._path):
             self.read()
 
-                      #key          empty   prompt                                    default
-        sections = [("author",  False, "user name",                             self.author or LocalOperation.get_user()),
-                    ("email",   False, "user email",                            self.email),
-                    ("git_url", False, "user git url[git@github.com:yourname]", self.git_url)]
+                      #key         prompt                                    default                              verify
+        sections = [("author",  "user name",                         self.author or LocalOperation.get_user(), VerifyName),
+                    ("email",   "user email",                        self.email,                               VerifyEmail),
+                    ("git_url", "user git url[git@github.com:name]", self.git_url,                             VerifyGit)]
 
         for section in sections:
             while(1):
-                self._content[section[0]] = gets("Input %s" % section[2], section[3])
-                if section[1] and not self._content[section[0]]:
+                self._content[section[0]] = gets("Input %s" % section[1], section[2])
+                if section[3] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                     continue
-                elif section[1] and not VerifyName(self._content[section[0]]):
+                elif section[3] and not section[3](self._content[section[0]]):
                     Log.warn(Status["STAT_INPUT_INVALID"] % section[0])
                     continue
                 else:

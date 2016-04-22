@@ -23,5 +23,9 @@ def VerifyName(name):
     return not _RE_NAME.match(name) is None
 
 _RE_EMAIL = re.compile(r"[_\w\d]+@[_\w\d]+\.[\w]+")
-def EmailVerify(email):
+def VerifyEmail(email):
     return not _RE_EMAIL.match(email) is None
+
+_RE_GIT = re.compile(r"git@[\w\d_\-]+\.[\w]+:[\w\d_\-]+")
+def VerifyGit(name):
+    return not _RE_GIT.match(name) is None
