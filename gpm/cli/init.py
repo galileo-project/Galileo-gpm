@@ -3,6 +3,7 @@ from gpm.cli import CLI
 from gpm.utils.conf import GPMConf
 from gpm.utils.git_client import GitClient
 from gpm.const import GPM_YML
+import os
 
 class CLIInit(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_init"}
@@ -18,7 +19,7 @@ class CLIInit(CLI):
         conf.generate()
         gc   = GitClient(conf)
         gc.init()
-        gc.add(GPM_YML)
+        gc.add(os.path.join(conf.name, GPM_YML))
         gc.commit("Init Project with gpm")
 
 _MOD = CLIInit
