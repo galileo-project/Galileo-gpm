@@ -8,17 +8,17 @@ from gpm.const.status import Status
 
 class _Conf(object):
     def __init__(self, path):
-        self.path = path
-        self.content = {}
+        self.__path = path
+        self.__content = {}
 
     def read(self):
-        with open(self.path, "r") as stream:
-            self.content = yaml.load(stream)
+        with open(self.__path, "r") as stream:
+            self.__content = yaml.load(stream)
 
     def write(self, path, data):
         LocalOperation.mkdir(os.path.dirname(path))
         with open(path, "w+") as stream:
-            self.content = yaml.dump(data, stream)
+            yaml.dump(data, stream)
 
 #####################################
 #                                   #
@@ -32,59 +32,63 @@ class GPMConf(_Conf):
         _Conf.__init__(self, path)
 
     @property
+    def path(self):
+        return self.__path
+
+    @property
     def author(self):
-        return self.content.get("author", "")
+        return self.__content.get("author", "")
 
     @property
     def description(self):
-        return self.content.get("description", "")
+        return self.__content.get("description", "")
 
     @property
     def version(self):
-        return self.content.get("version", "")
+        return self.__content.get("version", "")
 
     @property
     def email(self):
-        return self.content.get("email", "")
+        return self.__content.get("email", "")
 
     @property
     def language(self):
-        return self.content.get("language", "")
+        return self.__content.get("language", "")
 
     @property
     def build(self):
-        return self.content.get("build", [])
+        return self.__content.get("build", [])
 
     @property
     def install(self):
-        return self.content.get("install", [])
+        return self.__content.get("install", [])
 
     @property
     def remove(self):
-        return self.content.get("remove", [])
+        return self.__content.get("remove", [])
 
     @property
     def test(self):
-        return self.content.get("test", [])
+        return self.__content.get("test", [])
 
     @property
     def dep(self):
-        return self.content.get("dep", [])
+        return self.__content.get("dep", [])
 
     @property
     def name(self):
-        return self.content.get("name", "")
+        return self.__content.get("name", "")
 
     @property
     def git_url(self):
-        git = self.content.get("git_url", "")
+        git = self.__content.get("git_url", "")
         if ".git" in git:
             git = "/".join(git.split("/")[:-1])
         return git
 
     def create_conf(self):
         sysConf = SYSConf()
-        if LocalOperation.exist(self.path):
+        if LocalOperation.exist(self.__path):
             self.read()
 
                       #key          empty   prompt                                    default
@@ -98,13 +102,13 @@ class GPMConf(_Conf):
 
         for section in sections:
             while(1):
-                self.content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not self.content[section[0]] and section[1]:
+                self.__content[section[0]] = gets("Input %s" % section[2], section[3])
+                if not self.__content[section[0]] and section[1]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                 else:
                     break
 
-        self.write(self.path, self.content)
+        self.write(self.__path, self.__content)
 
 #####################################
 #                                   #
@@ -119,18 +123,18 @@ class SYSConf(_Conf):
 
     @property
     def author(self):
-        return self.content.get("author", "")
+        return self.__content.get("author", "")
 
     @property
     def email(self):
-        return self.content.get("email", "")
+        return self.__content.get("email", "")
 
     @property
     def git_url(self):
-        return self.content.get("git_url", "")
+        return self.__content.get("git_url", "")
 
     def generate(self):
-        if LocalOperation.exist(self.path):
+        if LocalOperation.exist(self.__path):
             self.read()
 
                       #key          empty   prompt                                    default
@@ -140,10 +144,10 @@ class SYSConf(_Conf):
 
         for section in sections:
             while(1):
-                self.content[section[0]] = gets("Input %s" % section[2], section[3])
-                if not self.content[section[0]] and section[1]:
+                self.__content[section[0]] = gets("Input %s" % section[2], section[3])
+                if not self.__content[section[0]] and section[1]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
                 else:
                     break
 
-        self.write(self.path, self.content)
+        self.write(self.__path, self.__content)
