@@ -21,3 +21,7 @@ def Path2Dir(path):
 _RE_NAME = re.compile(r"[_\w\d]+")
 def VerifyName(name):
     return not _RE_NAME.match(name) is None
+
+_RE_EMAIL = re.compile(r"[_\w\d]+@[_\w\d]+\.[\w]+")
+def EmailVerify(email):
+    return not _RE_EMAIL.match(email) is None
