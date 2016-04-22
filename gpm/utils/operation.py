@@ -43,7 +43,7 @@ class LocalOperation(object):
     def cp(cls, origin, target):
         if not isinstance(origin, list):
             origin = [origin]
-        ret = cls.__exec("cp -r %s %s" % (" ".join(origin), target), ret = True)
+        ret = cls.__exec("cp -rf %s %s" % (" ".join(origin), target), ret = True)
         return not ret is False
 
     @classmethod
