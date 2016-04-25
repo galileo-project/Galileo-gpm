@@ -164,8 +164,9 @@ class LocalOperation(object):
                 ret.append(cls.string_clean(string))
             return ret
         else:
-            strings = strings.replace("\n", "")
-            strings = strings.replace("\t", "")
+            if cls.__is_str(strings):
+                strings = strings.replace("\n", "")
+                strings = strings.replace("\t", "")
             return strings
 
     @classmethod
@@ -175,6 +176,15 @@ class LocalOperation(object):
             return cls.rel2abs(ret[0])
         else:
             return None
+
+    @staticmethod
+    def __is_str(string):
+        try:
+            basestring
+        except:
+            basestring = str
+
+        return isinstance(string, basestring)
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
