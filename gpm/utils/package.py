@@ -38,6 +38,7 @@ class PackageOpration(object):
 
         cmds = self.__config.install
         for cmd in cmds:
+            Log.info(Status["STAT_RUN_CMD" % cmd])
             ret = LocalOperation.run(cmd, path = self.__path)
             if not ret:
                 break
