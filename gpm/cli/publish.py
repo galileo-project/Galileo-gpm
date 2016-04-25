@@ -10,7 +10,7 @@ class CLIPublish(CLI):
     """
 
     def _publish(self, *args, **kwargs):
-        po = PackageOpration()
+        po = PackageOpration(self.config)
         po.publish()
 
     def _help(self, *args, **kwargs):

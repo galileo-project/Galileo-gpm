@@ -1,6 +1,7 @@
 import os
 from gitdb import GitDB
 from git import Repo, Git
+from github import Github, GithubObject
 from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
@@ -26,8 +27,8 @@ class GitClient(LocalOperation):
 
     @property
     def user_account(self):
-        self.__uname    = self.__uname or gets("Input GitHub user name:")
-        self.__password = self.__password or gets("Input GitHub password:")
+        self.__uname    = self.__uname or gets("Input GitHub user name")
+        self.__password = self.__password or gets("Input GitHub password")
         return self.__uname, self.__password
 
     @property
@@ -85,8 +86,8 @@ class GitClient(LocalOperation):
         return self.repo.create_remote(name=name, url=url)
 
     def publish(self, name = "origin"):
-        self._add_remote(name, self.__github_url)
-        self._create_remote(self._config.name, description = self._config.description)
+        self._add_remote(name, self.github_url)
+        self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
         self.push()
 
     def tag(self, path):
@@ -114,7 +115,6 @@ class GitClient(LocalOperation):
 #          GitHub Client         #
 #                                #
 ##################################
-from github import Github
 
 class GitHubClient(object):
     _API_GOOD = "good"

@@ -184,7 +184,7 @@ class LocalOperation(object):
     @staticmethod
     def __is_str(string):
         try:
-            return isinstance(string, unicode)
+            return isinstance(string, (unicode, str))
         except:
             return isinstance(string, str)
 
