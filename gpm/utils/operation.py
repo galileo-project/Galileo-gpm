@@ -86,13 +86,13 @@ class LocalOperation(object):
         return "\n".join(lines)
 
     @classmethod
-    def find(cls, path, name = None, *args, **kwargs):
+    def find(cls, path, name = None, depth = 1, *args, **kwargs):
         if not name:
             target_path = os.path.dirname(path)
         else:
             target_path = path
         target_name = name or os.path.basename(path)
-        ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
+        ret = cls.__exec("find %s -maxdepth %d -name %s" % (target_path, depth, target_name), *args, **kwargs)
 
         return cls.string_clean(ret)
 
