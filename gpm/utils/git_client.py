@@ -89,8 +89,8 @@ class GitClient(LocalOperation):
         return self.repo.create_remote(name=name, url=url)
 
     def set_header(self):
-        repo = self.repo.create_head('master', self.origin.refs.master)
-        repo.set_tracking_branch(self.origin.refs.master)
+        repo = self.repo.create_head('master')
+        #repo.set_tracking_branch(self.origin.refs.master)
 
     def publish(self, name = "origin"):
         try:
