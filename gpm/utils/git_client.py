@@ -24,14 +24,15 @@ class GitClient(LocalOperation):
     @property
     def github_url(self):
         if not self.__github_url:
-            self.__github_url = self._config.git_url or "git@github.com:%s/%s" % (self.user_account[0], self._config.name)
+            self.__github_url =  "%s/%s.git" % (self._config.git_url, self._config.name) or\
+                                 "git@github.com:%s/%s.git" % (self.user_account[0], self._config.name)
         return self.__github_url
 
     @property
     def user_account(self):
         sys_conf = SYSConf()
         self.__uname    = self.__uname or gets("Input GitHub user name", sys_conf.author)
-        self.__password = self.__password or getpass.getpass("Input GitHub password")
+        self.__password = self.__password or getpass.getpass("Input GitHub password:")
         return self.__uname, self.__password
 
     @property
