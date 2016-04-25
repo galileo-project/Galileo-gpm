@@ -74,6 +74,7 @@ class GitClient(LocalOperation):
         g.clone(url or self.github_url)
         if branch:
             g.checkout(branch)
+        return True
 
     def pull(self):
         self.origin.pull()
