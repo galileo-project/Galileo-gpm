@@ -138,4 +138,5 @@ class PackageOpration(object):
         if not isinstance(pkgs, list):
             pkgs = [pkgs]
 
+        print(pkgs)
         puts("\n".join([Path2Dir(pkg) for pkg in pkgs]))
