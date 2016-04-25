@@ -18,4 +18,5 @@ Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_NOT_CMD":               "Not such command",
           "STAT_TEST_ERROR":            "Test %s error",
           "STAT_TEST_SUCCESS":          "Test %s success",
+          "STAT_PACKAGE_EXIST":         "Package %s already exist",
           "STAT_EXIT":                  "\nexit"}

@@ -84,10 +84,13 @@ class LocalOperation(object):
 
     @classmethod
     def find(cls, path, name = None, *args, **kwargs):
+        rets = []
         target_path = os.path.dirname(path)
         target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
-        rets = [cls.string_clean(i) for i in ret]
+
+        if isinstance(ret, list):
+            rets = [cls.string_clean(i) for i in ret]
 
         return rets
 

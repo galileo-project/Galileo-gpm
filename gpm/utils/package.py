@@ -5,6 +5,8 @@ from gpm.utils import GitURL2Name, DepURL2Git
 from gpm.const import GPM_YML, GPM_SRC
 from gpm.utils import Path2Dir
 from gpm.utils.console import puts
+from gpm.utils.log import Log
+from gpm.const.status import Status
 import os
 
 class PackageOpration(object):
@@ -72,6 +74,7 @@ class PackageOpration(object):
         for dep in deps:
             dep_name  = GitURL2Name(dep)
             if self.find(dep_name, show = False):         #dep exist
+                Log.info(Status["STAT_PACKAGE_EXIST"] % dep_name)
                 continue
 
             dep_url, dep_tag = DepURL2Git(dep)
