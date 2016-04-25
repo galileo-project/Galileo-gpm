@@ -52,6 +52,10 @@ class GitClient(LocalOperation):
             self._origin = self.repo.remotes[0]
         return self._origin
 
+    @property
+    def branch(self):
+        return self.repo.active_branch.name
+
     def init(self, name = None, path = None):
         name  = name or self._config.name
         path  = path or self.rel2abs()
@@ -89,8 +93,7 @@ class GitClient(LocalOperation):
         return self.repo.create_remote(name=name, url=url)
 
     def set_header(self):
-        repo = self.repo.create_head('master')
-        #repo.set_tracking_branch(self.origin.refs.master)
+        self.run("git config --global push.default matching")
 
     def publish(self, name = "origin"):
         try:
