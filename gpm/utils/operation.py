@@ -8,6 +8,8 @@ from gpm.const.status import Status
 from gpm.utils.string import decode as str_decode
 
 class LocalOperation(object):
+    _RE_CD = re.compile(r"cd\s([\w\d_\/\s\~\.]+)")
+
     @classmethod
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
@@ -162,8 +164,7 @@ class LocalOperation(object):
 
     @classmethod
     def __cd_to_path(cls, cmd):
-        _RE_CD = re.compile(r"cd\s([\w\d_\/\s\~\.]+)")
-        ret = _RE_CD.findall(cmd)
+        ret = cls._RE_CD.findall(cmd)
         if ret:
             return cls.rel2abs(ret[0])
         else:
