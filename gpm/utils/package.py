@@ -1,7 +1,7 @@
 from gpm.utils.operation import LocalOperation
 from gpm.utils.git_client import GitClient
 from gpm.utils.conf import GPMConf
-from gpm.utils import GitURL2Dir
+from gpm.utils import GitURL2Name, DepURL2Git
 from gpm.const import GPM_YML, GPM_SRC
 from gpm.utils import Path2Dir
 from gpm.utils.console import puts
@@ -18,13 +18,16 @@ class PackageOpration(object):
         if path:
             self.__path = path
 
-    def __save_src(self):
-        return LocalOperation.cp(self.__path, GPM_SRC)
+    def __save_src(self, save = True):
+        if save:
+            return LocalOperation.cp(self.__path, GPM_SRC)
+        else:
+            return True
 
     def __remove_src(self):
         return LocalOperation.rm(os.path.join(GPM_SRC, self.__config.name))
 
-    def install(self, config = None):
+    def install(self, config = None, save = True):
         self.set(config)
         ret = False
         if not self.__config:
@@ -36,7 +39,7 @@ class PackageOpration(object):
             if not ret:
                 break
 
-        if ret and not self.__save_src():
+        if ret and not self.__save_src(save):
             ret = False
 
         return ret
@@ -67,17 +70,25 @@ class PackageOpration(object):
         gc = GitClient(self.__config)
         deps = self.__config.dep
         for dep in deps:
-            ret = gc.clone(dep, GPM_SRC)
+            dep_name  = GitURL2Name(dep)
+            if self.find(dep_name):         #dep exist
+                continue
+
+            dep_url, dep_tag = DepURL2Git(dep)
+            ret = gc.clone(dep_url, GPM_SRC, dep_tag)
             if not ret:
                 return ret
             #install dep
-            dep_path  = os.path.join(GPM_SRC, GitURL2Dir(dep))
+            dep_path  = os.path.join(GPM_SRC, dep_name)
             conf_path = os.path.join(dep_path, GPM_YML)
             conf = GPMConf(conf_path)
-            self.set(conf, dep_path)
-            ret = self.install()
+
+            pkg = PackageOpration()
+            pkg.set(conf, dep_path)
+            ret = pkg.install(save=False)
             if not ret:
                 return False
+
         return ret
 
     def test(self, config = None):

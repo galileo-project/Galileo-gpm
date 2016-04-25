@@ -68,8 +68,11 @@ class GitClient(LocalOperation):
     def commit(self, msg):
         return self.repo.index.commit(msg)
 
-    def clone(self, url = None, to_path = None):
-        Git(to_path).clone(url or self.github_url)
+    def clone(self, url = None, to_path = None, branch = None):
+        g = Git(to_path)
+        g.clone(url or self.github_url)
+        if branch:
+            g.checkout(branch)
 
     def pull(self):
         self.origin.pull()

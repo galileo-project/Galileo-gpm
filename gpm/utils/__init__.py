@@ -1,10 +1,10 @@
 import os.path
 import re
 
-def GitURL2Dir(url):
+def GitURL2Name(url):
     if not url:
         return None
-    elif not "/" in url:
+    elif not "/" in url and not "." in url:
         return url
     else:
         suffix = url.split("/")[-1]
@@ -13,10 +13,24 @@ def GitURL2Dir(url):
         else:
             return suffix.split(".")[0]
 
+
+_RE_DEP_URL = re.compile(r"[_\w\d\-@\.]+:[/_\w\d\-\.]+\/([\w\d_\-]+)\.git:?([\w\d_\.]*)")
+def DepURL2Git(dep):
+    ret = _RE_DEP_URL.findall(dep)
+    if ret:
+        return ret[0]
+    else:
+        return None
+
 def Path2Dir(path):
     path = os.path.abspath(path)
     return path.split("/")[-1]
 
+#############################
+#                           #
+#       String verify       #
+#                           #
+#############################
 
 _RE_NAME = re.compile(r"[_\w\d]+")
 def VerifyName(name):
