@@ -17,6 +17,8 @@ class PackageOpration(object):
     def set(self, config = None, path = None):
         if config:
             self.__config = config
+            if not path:
+                self.__path = os.path.join(GPM_SRC, self.__config.name)
         if path:
             self.__path = path
 
@@ -52,6 +54,10 @@ class PackageOpration(object):
         self.set(config)
         ret = False
         if not self.__config:
+            return False
+
+        if self.find(self.__config.name, show = False):         #pkg exist
+            Log.info(Status["STAT_PACKAGE_EXIST"] % self.__config.name)
             return False
 
         cmds = self.__config.remove
