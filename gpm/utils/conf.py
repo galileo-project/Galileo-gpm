@@ -91,6 +91,9 @@ class GPMConf(_Conf):
             git = "/".join(git.split("/")[:-1])
         return git
 
+    def __get_name(self):
+        return self.name
+
     def generate(self):
         sysConf = SYSConf()
         if self.path and LocalOperation.exist(self.path):
@@ -103,10 +106,14 @@ class GPMConf(_Conf):
                     ("version",     "initial version",                          self.version or 0.1,             None),
                     ("email",       "author email",                             self.email or sysConf.email,     VerifyEmail),
                     ("description", "project description",                      self.description or "",          None),
-                    ("git_url",     "git url[git@github.com:name/project.git]", self.git_url or "%s/%s" % (sysConf.git_url, self.name), None)]
+                    ("git_url",     "git url[git@github.com:name/project.git]", None,                            None)]
 
         for section in sections:
             while(1):
+                if section[0] == "git_url" and sysConf.git_url:
+                    self._content[section[0]] = "%s/%s" % (sysConf.git_url, self.name)
+                    break
+
                 self._content[section[0]] = gets("Input %s" % section[1], section[2])
                 if section[3] and not self._content[section[0]]:
                     Log.warn(Status["STAT_INPUT_EMPTY"] % section[0])
