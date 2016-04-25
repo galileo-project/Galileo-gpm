@@ -7,6 +7,7 @@ from gpm.utils.log import Log
 from gpm.utils.console import gets
 from gpm.const.status import Status
 from gpm.utils.conf import SYSConf
+import getpass
 
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
@@ -30,7 +31,7 @@ class GitClient(LocalOperation):
     def user_account(self):
         sys_conf = SYSConf()
         self.__uname    = self.__uname or gets("Input GitHub user name", sys_conf.author)
-        self.__password = self.__password or gets("Input GitHub password")
+        self.__password = self.__password or getpass.getpass("Input GitHub password")
         return self.__uname, self.__password
 
     @property
