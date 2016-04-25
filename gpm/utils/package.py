@@ -31,7 +31,7 @@ class PackageOpration(object):
 
     def install(self, config = None, save = True):
         self.set(config)
-        Log.info(Status["STAT_INSTALLING_PKG"] % config.name)
+        Log.info(Status["STAT_INSTALLING_PKG"] % self.__config.name)
         ret = False
         if not self.__config:
             return False
