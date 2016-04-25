@@ -111,7 +111,7 @@ class GPMConf(_Conf):
         for section in sections:
             while(1):
                 if section[0] == "git_url" and sysConf.git_url:
-                    self._content[section[0]] = "%s/%s" % (sysConf.git_url, self.name)
+                    self._content[section[0]] = "%s/%s.git" % (sysConf.git_url, self.name)
                     break
 
                 self._content[section[0]] = gets("Input %s" % section[1], section[2])
