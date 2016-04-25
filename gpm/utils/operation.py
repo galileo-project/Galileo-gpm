@@ -168,9 +168,12 @@ class LocalOperation(object):
                 ret.append(cls.string_clean(string))
             return ret
         else:
+            print(cls.__is_str(strings))
             if cls.__is_str(strings):
                 strings = strings.replace("\n", "")
                 strings = strings.replace("\t", "")
+            print(strings)
+
             return strings
 
     @classmethod
