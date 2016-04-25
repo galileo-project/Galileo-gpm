@@ -87,10 +87,14 @@ class LocalOperation(object):
     @classmethod
     def find(cls, path, name = None, *args, **kwargs):
         rets = []
-        target_path = os.path.dirname(path)
+        if not name:
+            target_path = os.path.dirname(path)
+        else:
+            target_path = path
         target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
 
+        print(ret)
         if isinstance(ret, list):
             rets = [cls.string_clean(i) for i in ret]
 
@@ -143,9 +147,9 @@ class LocalOperation(object):
             ret = False
             path = None
             for cmd in cmds:
-                path = cls.__cd_to_path(cwd)
-                if path:
-                    continue
+                if not path:
+                    path = cls.__cd_to_path(cwd)
+                    if path: continue
                 ret = cls.__exec(cmd, cwd=path or cwd, *args, **kwargs)
                 if not ret:
                     return ret
