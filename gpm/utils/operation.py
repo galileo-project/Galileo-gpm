@@ -38,10 +38,9 @@ class LocalOperation(object):
             cmd = "%s %s" % (cmd, "-l")
         if hidden:
             cmd = "%s %s" % (cmd, "-a")
-
         ret = cls.__exec(cmd, ret = True)
 
-        cls.string_clean(ret)
+        return cls.string_clean(ret)
 
     @classmethod
     def cp(cls, origin, target):
