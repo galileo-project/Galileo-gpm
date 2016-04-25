@@ -15,7 +15,7 @@ Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_UNKNOWN_ERROR":         "Unknown error",
           "STAT_NOT_CONF":              "Not configure",
           "STAT_REMOVE_ERROR":          "Remove package error",
-          "STAT_NOT_CMD":               "Not suck command",
+          "STAT_NOT_CMD":               "Not such command",
           "STAT_TEST_ERROR":            "Test %s error",
           "STAT_TEST_SUCCESS":          "Test %s success",
           "STAT_EXIT":                  "\nexit"}
