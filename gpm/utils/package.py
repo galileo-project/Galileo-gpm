@@ -71,7 +71,7 @@ class PackageOpration(object):
         deps = self.__config.dep
         for dep in deps:
             dep_name  = GitURL2Name(dep)
-            if self.find(dep_name):         #dep exist
+            if self.find(dep_name, show = False):         #dep exist
                 continue
 
             dep_url, dep_tag = DepURL2Git(dep)
@@ -111,9 +111,10 @@ class PackageOpration(object):
         cls.__show_pkgs(ret)
 
     @classmethod
-    def find(cls, name):
+    def find(cls, name, show = True):
         ret = LocalOperation.find(GPM_SRC, name)
-        cls.__show_pkgs(ret)
+        if show:
+            cls.__show_pkgs(ret)
 
         if ret:
             conf_path = os.path.join(ret[0], GPM_YML)
