@@ -19,4 +19,5 @@ Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_TEST_ERROR":            "Test %s error",
           "STAT_TEST_SUCCESS":          "Test %s success",
           "STAT_PACKAGE_EXIST":         "Package %s already exist",
+          "STAT_INSTALLING_PKG":        "Installing package %s",
           "STAT_EXIT":                  "\nexit"}
