@@ -162,8 +162,6 @@ class LocalOperation(object):
 
     @classmethod
     def string_clean(cls, strings):
-        print(strings)
-        type(strings[0])
         if isinstance(strings, list):
             ret = []
             for string in strings:
@@ -186,11 +184,11 @@ class LocalOperation(object):
     @staticmethod
     def __is_str(string):
         try:
-            basestring
+            unicode
         except:
-            basestring = str
+            unicode = str
 
-        return isinstance(string, basestring)
+        return isinstance(string, str) or isinstance(string, unicode)
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
