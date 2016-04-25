@@ -136,6 +136,19 @@ class LocalOperation(object):
 
     @classmethod
     def __exec(cls, cmd, cwd = None, *args, **kwargs):
+        if "&&" in cmd:
+            cmds = cmd.split("&&")
+            ret = False
+            path = None
+            for cmd in cmds:
+                path = cls.__cd_to_path(cwd)
+                if path:
+                    continue
+                ret = cls.__exec(cmd, cwd=path or cwd, *args, **kwargs)
+                if not ret:
+                    return ret
+            return ret
+
         cmd_args = shlex.split(cmd)
         Log.debug(cmd)
         p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
@@ -146,6 +159,15 @@ class LocalOperation(object):
         string = string.replace("\n", "")
         string = string.replace("\t", "")
         return string
+
+    @classmethod
+    def __cd_to_path(cls, cmd):
+        _RE_CD = re.compile(r"cd\s([\w\d_\/\s\~\.]+)")
+        ret = _RE_CD.findall(cmd)
+        if ret:
+            return cls.rel2abs(ret[0])
+        else:
+            return None
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
