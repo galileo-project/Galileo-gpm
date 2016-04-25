@@ -39,7 +39,9 @@ class LocalOperation(object):
         if hidden:
             cmd = "%s %s" % (cmd, "-a")
 
-        return cls.__exec(cmd, ret = True)
+        ret = cls.__exec(cmd, ret = True)
+
+        cls.string_clean(ret)
 
     @classmethod
     def cp(cls, origin, target):
@@ -86,7 +88,6 @@ class LocalOperation(object):
 
     @classmethod
     def find(cls, path, name = None, *args, **kwargs):
-        rets = []
         if not name:
             target_path = os.path.dirname(path)
         else:
@@ -94,11 +95,7 @@ class LocalOperation(object):
         target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
 
-        print(ret)
-        if isinstance(ret, list):
-            rets = [cls.string_clean(i) for i in ret]
-
-        return rets
+        return cls.string_clean(ret)
 
     @classmethod
     def distr(cls):
@@ -160,11 +157,17 @@ class LocalOperation(object):
         p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
-    @staticmethod
-    def string_clean(string):
-        string = string.replace("\n", "")
-        string = string.replace("\t", "")
-        return string
+    @classmethod
+    def string_clean(cls, strings):
+        if isinstance(strings, list):
+            ret = []
+            for string in strings:
+                ret.append(cls.string_clean(string))
+            return ret
+        else:
+            strings = strings.replace("\n", "")
+            strings = strings.replace("\t", "")
+            return strings
 
     @classmethod
     def __cd_to_path(cls, cmd):
