@@ -85,7 +85,7 @@ class GitClient(LocalOperation):
         return True
 
     def pull(self):
-        self.origin.pull()
+        self.run("git pull origin %s" % self.branch)
 
     def push(self):
         self.run("git push origin %s" % self.branch)
