@@ -91,19 +91,22 @@ class GPMConf(_Conf):
             git = "/".join(git.split("/")[:-1])
         return git
 
+    def __get_name(self):
+        return self.name
+
     def generate(self):
         sysConf = SYSConf()
         if self.path and LocalOperation.exist(self.path):
             Log.fatal(Status["STAT_GPM_CONF_EXIST"])
 
                       #key            prompt                         default                          verify
-        sections = [("name",        "project name",                 self.name or None,               VerifyName),
-                    ("language",    "project language",             self.language or None,           VerifyName),
-                    ("author",      "author name",                  self.author or sysConf.author,   None),
-                    ("version",     "initial version",              self.version or 0.1,             None),
-                    ("email",       "author email",                 self.email or sysConf.email,     VerifyEmail),
-                    ("description", "project description",          self.description or "",          None),
-                    ("git_url",     "git url[git@github.com:name]", self.git_url or sysConf.git_url, None)]
+        sections = [("name",        "project name",                             self.name or None,               VerifyName),
+                    ("language",    "project language",                         self.language or None,           VerifyName),
+                    ("author",      "author name",                              self.author or sysConf.author,   None),
+                    ("version",     "initial version",                          self.version or 0.1,             None),
+                    ("email",       "author email",                             self.email or sysConf.email,     VerifyEmail),
+                    ("description", "project description",                      self.description or "",          None),
+                    ("git_url",     "git url[git@github.com:name/project.git]", sysConf.git_url or None,         None)]
 
         for section in sections:
             while(1):

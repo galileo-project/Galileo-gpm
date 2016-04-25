@@ -8,6 +8,8 @@ from gpm.const.status import Status
 from gpm.utils.string import decode as str_decode
 
 class LocalOperation(object):
+    _RE_CD = re.compile(r"cd\s([\w\d_\/\s\~\.]+)")
+
     @classmethod
     def mkdir(cls, paths, *args, **kwargs):
         if not isinstance(paths, list):
@@ -36,8 +38,11 @@ class LocalOperation(object):
             cmd = "%s %s" % (cmd, "-l")
         if hidden:
             cmd = "%s %s" % (cmd, "-a")
+        ret = cls.__exec(cmd, ret = True)
 
-        return cls.__exec(cmd, ret = True)
+        if not isinstance(ret, list):
+            return []
+        return cls.string_clean(ret)
 
     @classmethod
     def cp(cls, origin, target):
@@ -83,13 +88,17 @@ class LocalOperation(object):
         return "\n".join(lines)
 
     @classmethod
-    def find(cls, path, name = None, *args, **kwargs):
-        target_path = os.path.dirname(path)
+    def find(cls, path, name = None, depth = 1, *args, **kwargs):
+        if not name:
+            target_path = os.path.dirname(path)
+        else:
+            target_path = path
         target_name = name or os.path.basename(path)
-        ret = cls.__exec("find %s -name %s" % (target_path, target_name), *args, **kwargs)
-        rets = [cls.string_clean(i) for i in ret]
+        ret = cls.__exec("find %s -maxdepth %d -name %s" % (target_path, depth, target_name), *args, **kwargs)
 
-        return rets
+        if not isinstance(ret, list):
+            return []
+        return cls.string_clean(ret)
 
     @classmethod
     def distr(cls):
@@ -133,16 +142,51 @@ class LocalOperation(object):
 
     @classmethod
     def __exec(cls, cmd, cwd = None, *args, **kwargs):
+        if "&&" in cmd:
+            cmds = cmd.split("&&")
+            ret = False
+            path = None
+            for cmd in cmds:
+                if not path:
+                    path = cls.__cd_to_path(cwd)
+                    if path: continue
+                ret = cls.__exec(cmd, cwd=path or cwd, *args, **kwargs)
+                if not ret:
+                    return ret
+            return ret
+
         cmd_args = shlex.split(cmd)
         Log.debug(cmd)
         p = Popen(cmd_args, cwd = cwd, stderr=PIPE, stdout=PIPE, shell=False)
         return LocalOperation.__parser(p, *args, **kwargs)
 
+    @classmethod
+    def string_clean(cls, strings):
+        if isinstance(strings, list):
+            ret = []
+            for string in strings:
+                ret.append(cls.string_clean(string))
+            return ret
+        else:
+            if cls.__is_str(strings):
+                strings = strings.replace("\n", "")
+                strings = strings.replace("\t", "")
+            return strings
+
+    @classmethod
+    def __cd_to_path(cls, cmd):
+        ret = cls._RE_CD.findall(cmd)
+        if ret:
+            return cls.rel2abs(ret[0])
+        else:
+            return None
+
     @staticmethod
-    def string_clean(string):
-        string = string.replace("\n", "")
-        string = string.replace("\t", "")
-        return string
+    def __is_str(string):
+        try:
+            return isinstance(string, (unicode, str))
+        except:
+            return isinstance(string, str)
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):

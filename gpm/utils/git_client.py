@@ -1,10 +1,13 @@
 import os
 from gitdb import GitDB
 from git import Repo, Git
+from github import Github, GithubObject
 from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
 from gpm.const.status import Status
+from gpm.utils.conf import SYSConf
+import getpass
 
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
@@ -21,14 +24,15 @@ class GitClient(LocalOperation):
     @property
     def github_url(self):
         if not self.__github_url:
-            user_url = self._config.git_url or "git@github.com:%s" % self.user_account[0]
-            self.__github_url = self.safe_urljoin(user_url, "%s.git" % self._config.name)
+            self.__github_url =  "%s/%s.git" % (self._config.git_url, self._config.name) or\
+                                 "git@github.com:%s/%s.git" % (self.user_account[0], self._config.name)
         return self.__github_url
 
     @property
     def user_account(self):
-        self.__uname    = self.__uname or gets("Input GitHub user name:")
-        self.__password = self.__password or gets("Input GitHub password:")
+        sys_conf = SYSConf()
+        self.__uname    = self.__uname or gets("Input GitHub user name", sys_conf.author)
+        self.__password = self.__password or getpass.getpass("Input GitHub password:")
         return self.__uname, self.__password
 
     @property
@@ -49,6 +53,10 @@ class GitClient(LocalOperation):
             self._origin = self.repo.remotes[0]
         return self._origin
 
+    @property
+    def branch(self):
+        return self.repo.active_branch.name
+
     def init(self, name = None, path = None):
         name  = name or self._config.name
         path  = path or self.rel2abs()
@@ -68,22 +76,34 @@ class GitClient(LocalOperation):
     def commit(self, msg):
         return self.repo.index.commit(msg)
 
-    def clone(self, url = None, to_path = None):
-        Git(to_path).clone(url or self.github_url)
+    def clone(self, url = None, to_path = None, branch = None):
+        Log.info(Status["STAT_GET_PACKAGE"] % url)
+        g = Git(to_path)
+        g.clone(url or self.github_url)
+        if branch:
+            g.checkout(branch)
+        return True
 
     def pull(self):
-        self.origin.pull()
+        self.run("git pull origin %s" % self.branch)
 
     def push(self):
-        self.origin.push()
+        return self.run("git push origin %s" % self.branch)
 
     def _add_remote(self, name, url):
         return self.repo.create_remote(name=name, url=url)
 
+    def git_config(self):
+        return self.run("git config --global push.default matching")
+
     def publish(self, name = "origin"):
-        self._add_remote(name, self.__github_url)
-        self._create_remote(self._config.name, description = self._config.description)
-        self.push()
+        try:
+            self._add_remote(name, self.github_url)
+        except:
+            pass
+        self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
+        self.git_config()
+        return self.push()
 
     def tag(self, path):
         return self.repo.tag(path)
@@ -110,7 +130,6 @@ class GitClient(LocalOperation):
 #          GitHub Client         #
 #                                #
 ##################################
-from github import Github
 
 class GitHubClient(object):
     _API_GOOD = "good"
