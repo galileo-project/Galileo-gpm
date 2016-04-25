@@ -23,4 +23,6 @@ Status = {"STAT_OPT_INVALID":           "Option invalid",
           "STAT_GET_PACKAGE":           "Getting package %s",
           "STAT_INSTALL_DEP":           "Install dependency package %s",
           "STAT_RUN_CMD":               "Running %s ...",
+          "STAT_PUBLISH_SUCCESS":       "Publish success",
+          "STAT_PUBLISH_FAILED":        "Publish failed",
           "STAT_EXIT":                  "\nexit"}

@@ -119,7 +119,11 @@ class PackageOpration(object):
 
     def publish(self):
         gc = GitClient(self.__config)
-        gc.publish()
+        ret = gc.publish()
+        if ret:
+            Log.success(Status["STAT_PUBLISH_SUCCESS"])
+        else:
+            Log.fatal(Status["STAT_PUBLISH_FAILED"])
 
     @classmethod
     def list(cls):

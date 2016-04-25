@@ -88,13 +88,13 @@ class GitClient(LocalOperation):
         self.run("git pull origin %s" % self.branch)
 
     def push(self):
-        self.run("git push origin %s" % self.branch)
+        return self.run("git push origin %s" % self.branch)
 
     def _add_remote(self, name, url):
         return self.repo.create_remote(name=name, url=url)
 
-    def set_header(self):
-        self.run("git config --global push.default matching")
+    def git_config(self):
+        return self.run("git config --global push.default matching")
 
     def publish(self, name = "origin"):
         try:
@@ -102,8 +102,8 @@ class GitClient(LocalOperation):
         except:
             pass
         self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
-        self.set_header()
-        self.push()
+        self.git_config()
+        return self.push()
 
     def tag(self, path):
         return self.repo.tag(path)
