@@ -74,6 +74,7 @@ class PackageOpration(object):
         deps = self.__config.dep
         for dep in deps:
             dep_name  = GitURL2Name(dep)
+            Log.info(Status["STAT_INSTALL_DEP"] % dep_name)
             if self.find(dep_name, show = False):         #dep exist
                 Log.info(Status["STAT_PACKAGE_EXIST"] % dep_name)
                 continue

@@ -69,6 +69,7 @@ class GitClient(LocalOperation):
         return self.repo.index.commit(msg)
 
     def clone(self, url = None, to_path = None, branch = None):
+        Log.info(Status["STAT_GET_PACKAGE"] % url)
         g = Git(to_path)
         g.clone(url or self.github_url)
         if branch:
