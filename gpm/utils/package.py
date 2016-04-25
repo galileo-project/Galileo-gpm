@@ -135,8 +135,7 @@ class PackageOpration(object):
 
     @classmethod
     def __show_pkgs(cls, pkgs):
-        if isinstance(pkgs, list):
+        if not isinstance(pkgs, list):
             pkgs = [pkgs]
 
-        print(pkgs)
         puts("\n".join([Path2Dir(pkg) for pkg in pkgs]))
