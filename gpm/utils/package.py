@@ -117,6 +117,10 @@ class PackageOpration(object):
 
         return ret
 
+    def publish(self):
+        gc = GitClient(self.__config)
+        gc.publish()
+
     @classmethod
     def list(cls):
         ret = LocalOperation.ls(GPM_SRC)
