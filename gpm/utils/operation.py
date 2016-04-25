@@ -184,11 +184,9 @@ class LocalOperation(object):
     @staticmethod
     def __is_str(string):
         try:
-            unicode
+            return isinstance(string, unicode)
         except:
-            unicode = str
-
-        return isinstance(string, str) or isinstance(string, unicode)
+            return isinstance(string, str)
 
     @staticmethod
     def __parser(process, ret = True, output = False, *args, **kwargs):
