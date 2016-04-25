@@ -88,7 +88,7 @@ class GitClient(LocalOperation):
         self.origin.pull()
 
     def push(self):
-        self.origin.push()
+        self.run("git push origin %s" % self.branch)
 
     def _add_remote(self, name, url):
         return self.repo.create_remote(name=name, url=url)
