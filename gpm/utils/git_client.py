@@ -6,6 +6,7 @@ from gpm.utils.operation import LocalOperation
 from gpm.utils.log import Log
 from gpm.utils.console import gets
 from gpm.const.status import Status
+from gpm.utils.conf import SYSConf
 
 class GitClient(LocalOperation):
     _GITIGNORE_NAME = ".gitignore"
@@ -27,7 +28,8 @@ class GitClient(LocalOperation):
 
     @property
     def user_account(self):
-        self.__uname    = self.__uname or gets("Input GitHub user name")
+        sys_conf = SYSConf()
+        self.__uname    = self.__uname or gets("Input GitHub user name", sys_conf.author)
         self.__password = self.__password or gets("Input GitHub password")
         return self.__uname, self.__password
 
@@ -86,11 +88,14 @@ class GitClient(LocalOperation):
         return self.repo.create_remote(name=name, url=url)
 
     def set_header(self):
-        repo = self.repo.create_head('master')
-        repo.set_tracking_branch("master")
+        repo = self.repo.create_head('master', self.origin.refs.master)
+        repo.set_tracking_branch(self.origin.refs.master)
 
     def publish(self, name = "origin"):
-        origin = self._add_remote(name, self.github_url)
+        try:
+            self._add_remote(name, self.github_url)
+        except:
+            pass
         self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
         self.set_header()
         self.push()

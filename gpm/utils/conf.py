@@ -103,7 +103,7 @@ class GPMConf(_Conf):
                     ("version",     "initial version",                          self.version or 0.1,             None),
                     ("email",       "author email",                             self.email or sysConf.email,     VerifyEmail),
                     ("description", "project description",                      self.description or "",          None),
-                    ("git_url",     "git url[git@github.com:name/project.git]", self.git_url or sysConf.git_url, None)]     #TODO update
+                    ("git_url",     "git url[git@github.com:name/project.git]", self.git_url or "%s/%s" % (sysConf.git_url, self._content["name"]), None)]
 
         for section in sections:
             while(1):
