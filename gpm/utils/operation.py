@@ -162,18 +162,17 @@ class LocalOperation(object):
 
     @classmethod
     def string_clean(cls, strings):
+        print(strings)
+        type(strings[0])
         if isinstance(strings, list):
             ret = []
             for string in strings:
                 ret.append(cls.string_clean(string))
             return ret
         else:
-            print(cls.__is_str(strings))
             if cls.__is_str(strings):
                 strings = strings.replace("\n", "")
                 strings = strings.replace("\t", "")
-            print(strings)
-
             return strings
 
     @classmethod
