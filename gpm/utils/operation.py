@@ -40,6 +40,8 @@ class LocalOperation(object):
             cmd = "%s %s" % (cmd, "-a")
         ret = cls.__exec(cmd, ret = True)
 
+        if not isinstance(ret, list):
+            return []
         return cls.string_clean(ret)
 
     @classmethod
@@ -94,6 +96,8 @@ class LocalOperation(object):
         target_name = name or os.path.basename(path)
         ret = cls.__exec("find %s -maxdepth %d -name %s" % (target_path, depth, target_name), *args, **kwargs)
 
+        if not isinstance(ret, list):
+            return []
         return cls.string_clean(ret)
 
     @classmethod
