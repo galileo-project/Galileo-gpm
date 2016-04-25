@@ -14,7 +14,7 @@ def GitURL2Name(url):
             return suffix.split(".")[0]
 
 
-_RE_DEP_URL = re.compile(r"[_\w\d\-@\.]+:[/_\w\d\-\.]+\/([\w\d_\-]+)\.git:?([\w\d_\.]*)")
+_RE_DEP_URL = re.compile(r"([_\w\d\-@\.]+:[/_\w\d\-\.]+\/[\w\d_\-]+\.git):?([\w\d_\.]*)")
 def DepURL2Git(dep):
     ret = _RE_DEP_URL.findall(dep)
     if ret:
