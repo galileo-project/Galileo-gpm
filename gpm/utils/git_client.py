@@ -85,13 +85,13 @@ class GitClient(LocalOperation):
     def _add_remote(self, name, url):
         return self.repo.create_remote(name=name, url=url)
 
-    def set_master_header(self, origin):
-        return self.repo.create_head("master", origin.refs.master).set_tracking_branch(origin.refs.master)
+    def set_header(self, origin):
+        return self.repo.create_head('master').set_tracking_branch("master")
 
     def publish(self, name = "origin"):
         origin = self._add_remote(name, self.github_url)
         self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
-        self.set_master_header(origin)
+        self.set_header(origin)
         self.push()
 
     def tag(self, path):
