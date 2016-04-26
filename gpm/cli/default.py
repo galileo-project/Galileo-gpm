@@ -29,8 +29,9 @@ Options:
         puts(LocalOperation.distr())
         puts("%s %s" % (name, version))
 
-    def _help(self, *args, **kwargs):
-        puts(self.__doc__)
+    @classmethod
+    def _help(cls, *args, **kwargs):
+        puts(cls.__doc__)
 
 
 _MOD = CLIDefault

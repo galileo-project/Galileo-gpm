@@ -50,6 +50,7 @@ def run(args):
     except KeyboardInterrupt:
         Log.puts(Status["STAT_EXIT"])
     except KeyError:
-        Log.fatal(Status["STAT_NOT_CMD"])
-    # except Exception as e:
-    #     Log.fatal(str(e))
+        from gpm.cli.default import CLIDefault
+        CLIDefault._help()
+    except Exception as e:
+        Log.fatal(str(e))

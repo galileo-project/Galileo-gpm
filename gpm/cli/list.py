@@ -7,7 +7,7 @@ class CLIList(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_list"}
     __doc__ = """
         GPM list
-List installed gpm package
+List installed gpm packages
 Usage:
     gpm list
 Options:
@@ -18,8 +18,9 @@ Options:
         po = PackageOpration()
         po.list()
 
-    def _help(self, *args, **kwargs):
-        puts(self.__doc__)
+    @classmethod
+    def _help(cls, *args, **kwargs):
+        puts(cls.__doc__)
 
 
 _MOD = CLIList

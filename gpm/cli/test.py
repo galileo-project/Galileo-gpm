@@ -23,9 +23,9 @@ Options:
         else:
             Log.success(Status["STAT_TEST_SUCCESS"] % self.config.name)
 
-
-    def _help(self, *args, **kwargs):
-        puts(self.__doc__)
+    @classmethod
+    def _help(cls, *args, **kwargs):
+        puts(cls.__doc__)
 
 
 _MOD = CLITest

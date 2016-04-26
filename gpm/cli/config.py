@@ -13,9 +13,9 @@ Usage:
 Options:
     -h, --help  show gpm config manual
     """
-
-    def _help(self, *args, **kwargs):
-        puts(self.__doc__)
+    @classmethod
+    def _help(cls, *args, **kwargs):
+        puts(cls.__doc__)
 
     def _config(self):
         conf = SYSConf()
