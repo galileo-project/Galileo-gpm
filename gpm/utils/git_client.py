@@ -102,7 +102,6 @@ class GitClient(LocalOperation):
         except:
             pass
         self._create_remote(self._config.name, description = self._config.description or GithubObject.NotSet)
-        self.git_config()
         return self.push()
 
     def tag(self, path):

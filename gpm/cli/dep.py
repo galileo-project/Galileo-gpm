@@ -5,7 +5,12 @@ from gpm.utils.package import PackageOpration
 class CLIDep(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_dep"}
     __doc__ = """
-
+        GPM dep
+Install gpm dependency package
+Usage:
+    gpm dep
+Options:
+    -h, --help  show gpm dep manual
     """
 
     def _dep(self, *args, **kwargs):

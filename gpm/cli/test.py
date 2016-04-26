@@ -7,7 +7,12 @@ from gpm.const.status import Status
 class CLITest(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_test"}
     __doc__ = """
-
+        GPM test
+Run test commands of current gpm package
+Usage:
+    gpm test
+Options:
+    -h, --help  show gpm test manual
     """
 
     def _test(self, *args, **kwargs):

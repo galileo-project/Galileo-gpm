@@ -6,7 +6,12 @@ from gpm.utils.conf import SYSConf
 class CLIConfig(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_config"}
     __doc__ = """
-
+        GPM config
+Configure user gpm settings
+Usage:
+    gpm config
+Options:
+    -h, --help  show gpm config manual
     """
 
     def _help(self, *args, **kwargs):

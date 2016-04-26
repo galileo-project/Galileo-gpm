@@ -6,7 +6,12 @@ from gpm.utils.console import puts
 class CLIList(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_list"}
     __doc__ = """
-
+        GPM list
+List installed gpm package
+Usage:
+    gpm list
+Options:
+    -h, --help  show gpm list manual
     """
 
     def _list(self, *args, **kwargs):

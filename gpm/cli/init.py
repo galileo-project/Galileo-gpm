@@ -8,7 +8,10 @@ import os
 class CLIInit(CLI):
     _OPTS    = {"shortcut": "h", "name": ["help"], "action": ["_help"], "default": "_init"}
     __doc__ = """
-
+        GPM init
+Create and Init gpm package
+Usage:
+    gpm init
     """
 
     def _help(self, *args, **kwargs):

@@ -6,13 +6,19 @@ from gpm.const.status import Status
 from gpm.utils.package import PackageOpration
 
 class CLIInstall(CLI):
-    _OPTS     = {"shortcut": "hy", "name": ["help", "confirm"], "action": ["_help", None], "default": "_install"}
+    _OPTS     = {"shortcut": "hy", "name": ["help", "yes"], "action": ["_help", None], "default": "_install"}
     __doc__ = """
-
+        GPM install
+Install gpm package
+Usage:
+    gpm install
+Options:
+    -h, --help  show gpm install manual
+    -y, --yes   yes by default
     """
 
     def _install(self, *args, **kwargs):
-        if not kwargs.get("confirm"):
+        if not kwargs.get("yes"):
             if not confirm("Is install %s ?" % self.config.name):
                 return
 
