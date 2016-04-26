@@ -17,7 +17,7 @@ List of commands:
     test:       Run test commands
     remove:     Remove a gpm package by name
     dep:        Install dependent gpm package
-    find:       find installed gpm package by name
+    find:       Find installed gpm package by name
     list:       List installed gpm package
     publish:    Publish a gpm package to GitHub
 Options:
