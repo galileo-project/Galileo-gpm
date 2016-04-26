@@ -12,7 +12,7 @@ Run test commands of current gpm package
 Usage:
     gpm test
 Options:
-    -h, --help  show gpm test manual
+    -h, --help  Show gpm test manual
     """
 
     def _test(self, *args, **kwargs):

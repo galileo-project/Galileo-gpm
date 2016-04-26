@@ -11,7 +11,7 @@ Publish a gpm package to GitHub
 Usage:
     gpm publish
 Options:
-    -h, --help  show gpm publish manual
+    -h, --help  Show gpm publish manual
     """
 
     def _publish(self, *args, **kwargs):

@@ -11,8 +11,8 @@ Remove a installed gpm package
 Usage:
     gpm remove
 Options:
-    -h, --help  show gpm remove manual
-    -y, --yes   yes by default
+    -h, --help  Show gpm remove manual
+    -y, --yes   Say yes by default
     """
 
     def _remove(self, *args, **kwargs):

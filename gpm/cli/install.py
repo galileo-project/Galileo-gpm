@@ -13,8 +13,8 @@ Install gpm package
 Usage:
     gpm install
 Options:
-    -h, --help  show gpm install manual
-    -y, --yes   yes by default
+    -h, --help  Show gpm install manual
+    -y, --yes   Say yes by default
     """
 
     def _install(self, *args, **kwargs):

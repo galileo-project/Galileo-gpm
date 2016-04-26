@@ -11,7 +11,7 @@ Configure user gpm settings
 Usage:
     gpm config
 Options:
-    -h, --help  show gpm config manual
+    -h, --help  Show gpm config manual
     """
     @classmethod
     def _help(cls, *args, **kwargs):

@@ -12,6 +12,8 @@ class CLIInit(CLI):
 Create and Init gpm package
 Usage:
     gpm init
+Options:
+    -h, --help  Show gpm init manual
     """
 
     @classmethod

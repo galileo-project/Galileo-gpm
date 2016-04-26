@@ -10,7 +10,7 @@ Install gpm dependency package
 Usage:
     gpm dep
 Options:
-    -h, --help  show gpm dep manual
+    -h, --help  Show gpm dep manual
     """
 
     def _dep(self, *args, **kwargs):

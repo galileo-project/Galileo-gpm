@@ -11,7 +11,7 @@ Find installed gpm packages
 Usage:
     gpm find [package-name]
 Options:
-    -h, --help  show gpm find manual
+    -h, --help  Show gpm find manual
     """
 
     def _find(self, *args, **kwargs):

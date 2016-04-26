@@ -11,7 +11,7 @@ List installed gpm packages
 Usage:
     gpm list
 Options:
-    -h, --help  show gpm list manual
+    -h, --help  Show gpm list manual
     """
 
     def _list(self, *args, **kwargs):
