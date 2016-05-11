@@ -52,7 +52,7 @@ class PackageOpration(object):
 
     def remove(self, config=None, path=None):
         self.set(config, path)
-        ret = False
+        ret = True
         if not self.__config:
             return False
 
