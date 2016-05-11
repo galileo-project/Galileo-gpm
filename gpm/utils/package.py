@@ -50,8 +50,8 @@ class PackageOpration(object):
 
         return ret
 
-    def remove(self, config = None):
-        self.set(config)
+    def remove(self, config=None, path=None):
+        self.set(config, path)
         ret = False
         if not self.__config:
             return False
@@ -138,7 +138,7 @@ class PackageOpration(object):
 
         if ret:
             conf_path = os.path.join(ret[0], GPM_YML)
-            return GPMConf(conf_path)
+            return GPMConf(conf_path), ret[0]
         return None
 
     @classmethod
