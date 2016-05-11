@@ -1,4 +1,4 @@
-__version__ = 0.01
+__version__ = 0.11
 __name__    = "gpm"
 __debug     = False
 

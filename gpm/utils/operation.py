@@ -94,7 +94,7 @@ class LocalOperation(object):
         else:
             target_path = path
         target_name = name or os.path.basename(path)
-        ret = cls.__exec("find %s -maxdepth %d -name %s" % (target_path, depth, target_name), *args, **kwargs)
+        ret = cls.__exec("find %s -maxdepth %d -name *%s*" % (target_path, depth, target_name), *args, **kwargs)
 
         if not isinstance(ret, list):
             return []

@@ -22,10 +22,12 @@ Options:
 
         po = PackageOpration()
         if args:
-            conf = po.find(args[0])
+            conf, path = po.find(args[0])
         else:
             conf = self.config
-        po.remove(conf)
+            path = None
+
+        po.remove(conf, path)
 
     @classmethod
     def _help(cls, *args, **kwargs):

@@ -50,15 +50,15 @@ class PackageOpration(object):
 
         return ret
 
-    def remove(self, config = None):
-        self.set(config)
-        ret = False
+    def remove(self, config=None, path=None):
+        self.set(config, path)
+        ret = True
         if not self.__config:
             return False
 
-        if self.find(self.__config.name, show = False):         #pkg exist
-            Log.info(Status["STAT_PACKAGE_EXIST"] % self.__config.name)
-            return False
+        # if self.find(self.__config.name, show = False):         #pkg exist
+        #     Log.info(Status["STAT_PACKAGE_EXIST"] % self.__config.name)
+        #     return False
 
         cmds = self.__config.remove
         for cmd in cmds:
@@ -138,7 +138,7 @@ class PackageOpration(object):
 
         if ret:
             conf_path = os.path.join(ret[0], GPM_YML)
-            return GPMConf(conf_path)
+            return GPMConf(conf_path), ret[0]
         return None
 
     @classmethod
